@@ -3,5 +3,8 @@
     <style name="Base.Theme.Travel_notes_mobile" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">#0077B6</item>
+        <item name="colorPrimaryVariant">#005F8A</item>
+        <item name="colorOnPrimary">#000000</item>
     </style>
 </resources>

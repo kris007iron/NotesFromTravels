@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">travel_notes_mobile</string>
+    <string name="add_note">Add Note</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="usericon">UserIcon</string>
+    <string name="floating_action_button">Floating Action Button</string>
 </resources>
