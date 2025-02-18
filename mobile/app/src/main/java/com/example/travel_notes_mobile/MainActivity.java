@@ -1,5 +1,7 @@
 package com.example.travel_notes_mobile;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
