@@ -1,14 +1,9 @@
-package com.example.travel_notes_mobile;
+package com.example.travel_notes_mobile.view;
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.travel_notes_mobile.databinding.ActivityMainBinding;
 
@@ -21,5 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getWindow().setStatusBarColor(Color.argb(255, 0, 0, 0));
     }
 }
