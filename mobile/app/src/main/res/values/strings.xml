@@ -4,4 +4,5 @@
     <string name="edit_note">Edit Note</string>
     <string name="usericon">UserIcon</string>
     <string name="floating_action_button">Floating Action Button</string>
+    <string name="searchicon" />
 </resources>
