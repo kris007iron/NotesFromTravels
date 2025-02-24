@@ -7,7 +7,7 @@ This document provides a comprehensive specification for the authentication endp
 ## Overview
 
 The authentication system consists of two main components:
-- **User Registration:** An endpoint to register new users.
+- **User Registration:** An endpoint to register new users. Works under default like `/oauth2/authorization/github`
 - **OAuth2 Token Flow:** Endpoints for handling OAuth authorization and token issuance. The issued access token is a JWT used to secure subsequent API requests.
 
 ---
