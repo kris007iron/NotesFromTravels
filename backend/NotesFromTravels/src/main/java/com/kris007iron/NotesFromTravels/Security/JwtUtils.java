@@ -1,4 +1,4 @@
-package com.kris007iron.NotesFromTravels.security;
+package com.kris007iron.NotesFromTravels.Security;
 
 
 import io.jsonwebtoken.*;
