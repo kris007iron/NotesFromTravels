@@ -12,4 +12,9 @@ public class AuthController {
         System.out.println("Start");
         return "it's get mapping for /";
     }
+    @GetMapping("/error")
+    public String Error(){
+        System.out.println("Error");
+        return "it's get mapping for error";
+    }
 }
