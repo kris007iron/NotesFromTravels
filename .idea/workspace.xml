@@ -4,44 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e5bc0d31-2e4e-44f8-b113-a6b68679df68" name="Changes" comment="starting again">
-      <change afterPath="$PROJECT_DIR$/mobile/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/androidTest/java/com/example/travel_notes_mobile/ExampleInstrumentedTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/java/com/example/travel_notes_mobile/MainActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/drawable/ic_launcher_foreground.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/values-night/themes.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/values/themes.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/xml/backup_rules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/main/res/xml/data_extraction_rules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/app/src/test/java/com/example/travel_notes_mobile/ExampleUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/gradle/libs.versions.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mobile/settings.gradle.kts" afterDir="false" />
+    <list default="true" id="f3299502-1f13-4c01-b1c8-038771349ec3" name="Changes" comment="starting again">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/app/src/main/res/values/colors.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,22 +19,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;KarolOzga&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "KarolOzga"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/kris007iron/NotesFromTravels.git&quot;,
-    &quot;accountId&quot;: &quot;b4fc52d1-8c1b-478c-8c9d-097b9629819a&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/kris007iron/NotesFromTravels.git",
+    "accountId": "b4fc52d1-8c1b-478c-8c9d-097b9629819a"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 4
+  &quot;associatedIndex&quot;: 2
 }</component>
-  <component name="ProjectId" id="2sj8uXMj6cPn5tNeLm2YZKNKhPr" />
+  <component name="ProjectId" id="2tXgfIP52KBOdXkJsneKeOb14H6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -82,30 +47,37 @@
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "X:/Programowanie/tutorials/NotesFromTravels"
+    "last_opened_file_path": "X:/Programowanie/tutorials/NotesFromTravels/mobile",
+    "nodejs_package_manager_path": "npm",
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.419" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.419" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e5bc0d31-2e4e-44f8-b113-a6b68679df68" name="Changes" comment="" />
-      <created>1738957848000</created>
+      <changelist id="f3299502-1f13-4c01-b1c8-038771349ec3" name="Changes" comment="starting again" />
+      <created>1740503934816</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1738957848000</updated>
+      <updated>1740503934816</updated>
+      <workItem from="1740503935853" duration="105000" />
     </task>
-    <task id="LOCAL-00001" summary="starting again">
-      <option name="closed" value="true" />
-      <created>1738959318526</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1738959318526</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="starting again" />
