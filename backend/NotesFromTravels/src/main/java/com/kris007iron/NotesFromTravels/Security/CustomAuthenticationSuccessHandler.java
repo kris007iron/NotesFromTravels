@@ -1,6 +1,7 @@
 package com.kris007iron.NotesFromTravels.Security;
 
 import com.kris007iron.NotesFromTravels.Model.User;
+import com.kris007iron.NotesFromTravels.Service.JwtService;
 import com.kris007iron.NotesFromTravels.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,12 +11,12 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Optional;
 
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final UserService userService;
+    private final static long LOGIN_TOKEN_EXPIRATION_TIME = 86400000;
 
     public CustomAuthenticationSuccessHandler(UserService userService) {
         this.userService = userService;
@@ -31,6 +32,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         System.out.println(oAuth2User);
         System.out.println(Optional.ofNullable(oAuth2User.getAttribute("login")));
         User user = userService.findOrCreateUser(oAuth2User.getAttribute("login"), oAuth2User.getAttribute("name"));
+        String token = JwtService.generateToken(user.getLogin(), LOGIN_TOKEN_EXPIRATION_TIME);
+        System.out.println(token);
         response.sendRedirect("/");
 
     }
