@@ -1,0 +1,37 @@
+package com.kris007iron.NotesFromTravels.Security;
+
+import com.kris007iron.NotesFromTravels.Model.User;
+import com.kris007iron.NotesFromTravels.Service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
+
+@Component
+public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+    private final UserService userService;
+
+    public CustomAuthenticationSuccessHandler(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Authentication authentication) throws IOException {
+
+        System.out.println("github auth success");
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        System.out.println(oAuth2User);
+        System.out.println(Optional.ofNullable(oAuth2User.getAttribute("login")));
+        User user = userService.findOrCreateUser(oAuth2User.getAttribute("login"), oAuth2User.getAttribute("name"));
+        response.sendRedirect("/");
+
+    }
+}
