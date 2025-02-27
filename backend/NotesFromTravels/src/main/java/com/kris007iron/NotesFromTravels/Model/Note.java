@@ -19,7 +19,10 @@ public class Note {
 
     private String title;
     private String content;
-
     @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 }

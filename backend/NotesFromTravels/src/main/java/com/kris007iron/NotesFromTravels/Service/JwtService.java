@@ -5,7 +5,10 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -71,5 +74,20 @@ public class JwtService {
             // Token expired
             return null;
         }
+    }
+
+    //either JWT or OAuth2
+    public static String extractLoginFromAuth(HttpServletRequest request){
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            OAuth2User principal = (OAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return principal.getAttribute("login");
+        }
+
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ") && authHeader.length() > 7) {
+            String token = authHeader.substring(7);
+            return JwtService.getLoginFromToken(token);
+        }
+        return null;
     }
 }
