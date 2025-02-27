@@ -14,58 +14,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome to Travel Notes"
-        android:textSize="26sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_gravity="center"
         android:paddingBottom="32dp" />
 
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:padding="16dp"
-        android:background="@drawable/edit_text_background"
-        android:elevation="4dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/gray" />
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:padding="16dp"
-        android:background="@drawable/edit_text_background"
-        android:elevation="4dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/gray"
-        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Sign in with GitHub"
         android:backgroundTint="@color/primary"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_marginTop="24dp"
         android:padding="12dp"
+        android:drawableLeft="@drawable/github_icon"
+        android:drawablePadding="8dp"
+        android:paddingEnd="35dp"
         />
 
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register"
-        android:backgroundTint="@color/black"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:layout_marginTop="16dp"
-        android:padding="12dp"
-         />
 </LinearLayout>
