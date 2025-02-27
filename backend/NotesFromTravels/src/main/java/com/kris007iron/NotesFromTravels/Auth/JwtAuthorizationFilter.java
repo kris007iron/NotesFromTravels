@@ -27,7 +27,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         // Skip filtering if authentication is already set
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
-            System.out.println(SecurityContextHolder.getContext().getAuthentication());
             filterChain.doFilter(request, response);
             return;
         }
