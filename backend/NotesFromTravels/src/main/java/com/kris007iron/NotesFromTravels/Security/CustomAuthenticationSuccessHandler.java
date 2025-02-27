@@ -34,7 +34,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         User user = userService.findOrCreateUser(oAuth2User.getAttribute("login"), oAuth2User.getAttribute("name"));
         String token = JwtService.generateToken(user.getLogin(), LOGIN_TOKEN_EXPIRATION_TIME);
         System.out.println(token);
-        response.sendRedirect("/");
+        response.sendRedirect("/token?token=" + token);
 
     }
 }
