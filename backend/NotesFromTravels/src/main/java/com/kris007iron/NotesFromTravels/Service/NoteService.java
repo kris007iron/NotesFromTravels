@@ -6,6 +6,7 @@ import com.kris007iron.NotesFromTravels.Repository.NoteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,5 +21,16 @@ public class NoteService {
     public Optional<List<Note>> findNotesByUserLogin(String login) {
         Optional<User> user = userService.getUserByLogin(login);
         return user.map(value -> noteRepository.findByUserId(value.getId()));
+    }
+
+    public Optional<Note> findUsersNoteById(String login, Long id) {
+        Optional<User> user = userService.getUserByLogin(login);
+        Optional<Note> note = noteRepository.findById(id);
+        if (note.isPresent() && user.isPresent()){
+            if (Objects.equals(note.get().getUser(), user.get())){
+                return note;
+            }
+        }
+        return Optional.empty();
     }
 }
