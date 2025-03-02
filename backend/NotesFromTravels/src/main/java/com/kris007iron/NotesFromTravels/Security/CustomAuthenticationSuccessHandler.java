@@ -29,12 +29,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         System.out.println("github auth success");
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        //System.out.println(oAuth2User);
         System.out.println(Optional.ofNullable(oAuth2User.getAttribute("login")));
         User user = userService.findOrCreateUser(oAuth2User.getAttribute("login"), oAuth2User.getAttribute("name"));
         String token = JwtService.generateToken(user.getLogin(), LOGIN_TOKEN_EXPIRATION_TIME);
-        System.out.println(token);
-        response.sendRedirect("/token?token=" + token);
-
+        if(user.getRole().equals("USER")) {
+            response.sendRedirect("/token?token=" + token);
+        }else if(user.getRole().equals("ADMIN")) {
+            response.sendRedirect("/dashboard");
+        }
     }
 }
