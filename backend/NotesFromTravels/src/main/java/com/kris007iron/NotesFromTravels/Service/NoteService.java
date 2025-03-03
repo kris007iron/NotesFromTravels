@@ -1,6 +1,7 @@
 package com.kris007iron.NotesFromTravels.Service;
 
 import com.kris007iron.NotesFromTravels.Model.Note;
+import com.kris007iron.NotesFromTravels.Model.NoteDTO;
 import com.kris007iron.NotesFromTravels.Model.User;
 import com.kris007iron.NotesFromTravels.Repository.NoteRepository;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,12 @@ public class NoteService {
             }
         }
         return Optional.empty();
+    }
+
+    public Note createNote(NoteDTO note) {
+        Note newNote = new Note();
+
+        noteRepository.save(newNote);
+        return newNote;
     }
 }
