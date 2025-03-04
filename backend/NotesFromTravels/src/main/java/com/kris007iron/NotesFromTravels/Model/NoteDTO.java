@@ -1,12 +1,10 @@
 package com.kris007iron.NotesFromTravels.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoteDTO {
@@ -14,4 +12,5 @@ public class NoteDTO {
     private String content;
     private LocationDTO location;
     private String imageUrl;
+
 }
