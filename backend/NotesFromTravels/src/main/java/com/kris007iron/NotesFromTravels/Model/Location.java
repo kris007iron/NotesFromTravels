@@ -1,13 +1,11 @@
 package com.kris007iron.NotesFromTravels.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
+@ToString(exclude = "notes")
 @Entity
 @Table(name="locations")
 @Getter
@@ -22,6 +20,6 @@ public class Location {
     private double latitude;
     private double longitude;
 
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Note> notes;
 }

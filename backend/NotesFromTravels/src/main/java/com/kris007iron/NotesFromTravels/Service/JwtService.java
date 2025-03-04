@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -77,8 +78,8 @@ public class JwtService {
 
     //either JWT or OAuth2
     public static String extractLoginFromAuth(HttpServletRequest request){
-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
-            return SecurityContextHolder.getContext().getAuthentication().getName();
+        if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication() instanceof OAuth2AuthenticationToken token) {
+            return token.getPrincipal().getAttribute("login");
         }
 
         String authHeader = request.getHeader("Authorization");
