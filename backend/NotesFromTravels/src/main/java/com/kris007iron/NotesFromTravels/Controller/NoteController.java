@@ -24,12 +24,14 @@ public class NoteController {
     @GetMapping()
     public Optional<List<Note>> getNotes(HttpServletRequest request) {
         String login = JwtService.extractLoginFromAuth(request);
+        System.out.println(login);
         return noteService.findNotesByUserLogin(login);
     }
 
     @GetMapping("/{id}")
     public Optional<Note> getNoteById(@PathVariable Long id, HttpServletRequest request) {
         String login = JwtService.extractLoginFromAuth(request);
+
         return  noteService.findUsersNoteById(login, id);
     }
 
@@ -37,6 +39,8 @@ public class NoteController {
     public ResponseEntity<Note> createNote(@RequestBody NoteDTO note, HttpServletRequest request)
     {
         String login = JwtService.extractLoginFromAuth(request);
-        return new ResponseEntity<>(noteService.createNote(note, login), HttpStatus.CREATED);
+        Note createdNote = noteService.createNote(note, login);
+        System.out.println("Created Note:" + createdNote.toString());
+        return new ResponseEntity<>(createdNote, HttpStatus.OK);
     }
 }

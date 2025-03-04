@@ -1,13 +1,11 @@
 package com.kris007iron.NotesFromTravels.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
+@ToString(exclude = "notes")
 @Entity
 @Table(name="users")
 @Getter
@@ -23,6 +21,6 @@ public class User {
     private String name;
     private String role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Note> notes;
 }
