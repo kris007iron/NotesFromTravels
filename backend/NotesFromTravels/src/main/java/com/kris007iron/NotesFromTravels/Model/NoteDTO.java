@@ -14,14 +14,4 @@ public class NoteDTO {
     private String content;
     private LocationDTO location;
     private String imageUrl;
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    static class LocationDTO {
-        private double latitude;
-        private double longitude;
-    }
-
 }
