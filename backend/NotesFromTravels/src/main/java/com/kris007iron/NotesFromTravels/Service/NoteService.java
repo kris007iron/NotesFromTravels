@@ -1,8 +1,10 @@
 package com.kris007iron.NotesFromTravels.Service;
 
+import com.kris007iron.NotesFromTravels.Model.Location;
 import com.kris007iron.NotesFromTravels.Model.Note;
 import com.kris007iron.NotesFromTravels.Model.NoteDTO;
 import com.kris007iron.NotesFromTravels.Model.User;
+import com.kris007iron.NotesFromTravels.Repository.LocationRepository;
 import com.kris007iron.NotesFromTravels.Repository.NoteRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,12 @@ import java.util.Optional;
 public class NoteService {
     public final NoteRepository noteRepository;
     public final UserService userService;
-    public NoteService(NoteRepository noteRepository, UserService userService) {
+    private final LocationRepository locationRepository;
+
+    public NoteService(NoteRepository noteRepository, UserService userService, LocationRepository locationRepository) {
         this.noteRepository = noteRepository;
         this.userService = userService;
+        this.locationRepository = locationRepository;
     }
 
     public Optional<List<Note>> findNotesByUserLogin(String login) {
@@ -35,9 +40,18 @@ public class NoteService {
         return Optional.empty();
     }
 
-    public Note createNote(NoteDTO note) {
+    public Note createNote(NoteDTO note, String login) {
         Note newNote = new Note();
+        Location newLocation = new Location();
 
+        newLocation.setLatitude(note.getLocation().getLatitude());
+        newLocation.setLongitude(note.getLocation().getLongitude());
+
+        newNote.setTitle(note.getTitle());
+        newNote.setContent(note.getContent());
+        newNote.setLocation(newLocation);
+        newNote.setUser(userService.getUserByLogin(login).get());
+        locationRepository.save(newLocation);
         noteRepository.save(newNote);
         return newNote;
     }

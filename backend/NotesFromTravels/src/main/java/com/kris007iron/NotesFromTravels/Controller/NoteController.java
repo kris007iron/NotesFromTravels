@@ -34,8 +34,9 @@ public class NoteController {
     }
 
     @PostMapping()
-    public ResponseEntity<Note> createNote(@RequestBody NoteDTO note)
+    public ResponseEntity<Note> createNote(@RequestBody NoteDTO note, HttpServletRequest request)
     {
-        return new ResponseEntity<>(noteService.createNote(note), HttpStatus.CREATED);
+        String login = JwtService.extractLoginFromAuth(request);
+        return new ResponseEntity<>(noteService.createNote(note, login), HttpStatus.CREATED);
     }
 }
