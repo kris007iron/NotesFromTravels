@@ -1,31 +1,33 @@
 package com.kris007iron.NotesFromTravels.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
+import lombok.*;
 
 @Entity
-@Table(name="notes")
+@Table(name = "notes")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)  // ✅ Prevent infinite loops
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include  // ✅ Only include `id`
     private Long id;
 
     private String title;
     private String content;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", nullable = false)
-    @JsonIgnore
+    private String imageUrl;
+    @ManyToOne(fetch = FetchType.LAZY)  // ✅ Changed from `@OneToOne` to `@ManyToOne`
+    @JoinColumn(name = "location_id")
+    @EqualsAndHashCode.Exclude
     private Location location;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+
+    @ManyToOne(fetch = FetchType.LAZY)  // ✅ Added user reference
+    @JoinColumn(name = "user_id")
+    @EqualsAndHashCode.Exclude
     @JsonIgnore
     private User user;
 }

@@ -2,6 +2,7 @@ package com.kris007iron.NotesFromTravels.Controller;
 
 import com.kris007iron.NotesFromTravels.Model.Note;
 import com.kris007iron.NotesFromTravels.Model.NoteDTO;
+import com.kris007iron.NotesFromTravels.Model.Response.NoteResponseDTO;
 import com.kris007iron.NotesFromTravels.Service.JwtService;
 import com.kris007iron.NotesFromTravels.Service.NoteService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,9 +23,10 @@ public class NoteController {
     private final NoteService noteService;
 
     @GetMapping()
-    public Optional<List<Note>> getNotes(HttpServletRequest request) {
+    public Optional<List<NoteResponseDTO>> getNotes(HttpServletRequest request) {
         String login = JwtService.extractLoginFromAuth(request);
         System.out.println(login);
+        System.out.println(noteService.findNotesByUserLogin(login));
         return noteService.findNotesByUserLogin(login);
     }
 
