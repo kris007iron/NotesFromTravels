@@ -1,6 +1,8 @@
 package com.example.travel_notes_mobile.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +11,6 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.travel_notes_mobile.databinding.ActivityMainBinding;
-import com.example.travel_notes_mobile.model.Notes;
 import com.example.travel_notes_mobile.viewmodel.NotesViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
         if (data != null && data.isHierarchical()) {
             String token = data.getQueryParameter("token");
             Log.d("ELOOO", token);
-
-// zdobyc token, zapisac go w shared preferences,
-//            notesViewModel.fetchNotes();
-//            Notes notes = notesViewModel.getObservedNotes().getValue();
-
-
+            SharedPreferences sharedPreferences = getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("token", token);
+            editor.apply();
+            notesViewModel.setToken(token);
+            notesViewModel.fetchNotes();
 
         }
     }
