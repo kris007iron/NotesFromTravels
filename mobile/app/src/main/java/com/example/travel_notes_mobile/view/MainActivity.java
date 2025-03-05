@@ -9,11 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.travel_notes_mobile.adapters.NotesAdapter;
 import com.example.travel_notes_mobile.databinding.ActivityMainBinding;
+import com.example.travel_notes_mobile.fragments.BottomFragment;
 import com.example.travel_notes_mobile.model.Note;
 import com.example.travel_notes_mobile.viewmodel.NotesViewModel;
+import com.example.travel_notes_mobile.viewmodel.NotesViewModelFactory;
 
 import java.util.List;
 
@@ -31,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(Color.argb(255, 0, 0, 0));
 
-        Log.d("ELOOO", "czekam");
         Intent intent = getIntent();
         Uri data = intent.getData();
         if (data != null && data.isHierarchical()) {
@@ -42,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("token", token);
             editor.apply();
 
-            notesViewModel = new NotesViewModel(getApplication());
+            NotesViewModelFactory factory = NotesViewModelFactory.getInstance(getApplication());
+            notesViewModel = new ViewModelProvider(this, factory).get(NotesViewModel.class);
             notesViewModel.fetchNotes();
 
             notesViewModel.getObservedNotes().observe(this, notes -> {
@@ -54,5 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
+        binding.addNoteButton.setOnClickListener(v -> {
+            BottomFragment bottomFragment = new BottomFragment();
+            bottomFragment.show(getSupportFragmentManager(), bottomFragment.getTag());
+
+        });
+
+
     }
 }

@@ -12,6 +12,7 @@ import com.example.travel_notes_mobile.database.NotesDatabase;
 import com.example.travel_notes_mobile.model.Note;
 import com.example.travel_notes_mobile.service.RetrofitService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,6 +31,7 @@ public class NotesViewModel extends ViewModel {
     }
 
     public void fetchNotes(){
+        notesDatabase.notesDAO().deleteAllNotes();
         SharedPreferences sharedPreferences = application.getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
         String tokenValue = sharedPreferences.getString("token", "");
         Call<List<Note>> notes = RetrofitService.getNotesInterface().getNotes("Bearer " + tokenValue);
@@ -47,7 +49,37 @@ public class NotesViewModel extends ViewModel {
             @Override
             public void onFailure(Call<List<Note>> call, Throwable t) {
                 Log.d("NOTES_VIEW_MODEL_DEBUG", t.getMessage());
-                mutableLiveList.setValue(null);
+            }
+        });
+    }
+
+    public void postNote(Note note){
+        SharedPreferences sharedPreferences = application.getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
+        String tokenValue = sharedPreferences.getString("token", "");
+        Call<Note> notes = RetrofitService.getNotesInterface().postNote("Bearer " + tokenValue, note);
+        Log.d("ELOOO", "POSTUJE");
+        notes.enqueue(new retrofit2.Callback<Note>() {
+            @Override
+            public void onResponse(Call<Note> call, retrofit2.Response<Note> response) {
+                Log.d("KUUPA", response.body().getTitle());
+                List<Note> currentNotes = mutableLiveList.getValue();
+
+                if (currentNotes != null) {
+
+                    Log.d("KUUPA", response.body().getTitle());
+
+                    List<Note> updatedNotes = new ArrayList<>(currentNotes);
+                    updatedNotes.add(response.body());
+                    mutableLiveList.setValue(updatedNotes);
+                    notesDatabase.notesDAO().insertNote(response.body());
+
+                }
+                Log.d("KUUPA", response.body().getTitle());
+            }
+
+            @Override
+            public void onFailure(Call<Note> call, Throwable t) {
+                Log.d("KUUPA", t.getMessage());
             }
         });
     }
