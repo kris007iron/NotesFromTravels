@@ -1,6 +1,8 @@
 package com.example.travel_notes_mobile.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -10,7 +12,6 @@ import com.example.travel_notes_mobile.database.NotesDatabase;
 import com.example.travel_notes_mobile.model.Note;
 import com.example.travel_notes_mobile.service.RetrofitService;
 
-import java.io.Closeable;
 import java.util.List;
 
 import retrofit2.Call;
@@ -18,18 +19,19 @@ import retrofit2.Call;
 public class NotesViewModel extends ViewModel {
 
     private MutableLiveData<List<Note>> mutableLiveList;
-    private MutableLiveData<String> token;
     private NotesDatabase notesDatabase;
+    private Application application;
 
 
     public NotesViewModel(Application application) {
+        this.application = application;
         mutableLiveList = new MutableLiveData<>();
-        token = new MutableLiveData<>();
         notesDatabase = NotesDatabase.getInstance(application);
     }
 
     public void fetchNotes(){
-        String tokenValue = this.token.getValue();
+        SharedPreferences sharedPreferences = application.getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
+        String tokenValue = sharedPreferences.getString("token", "");
         Call<List<Note>> notes = RetrofitService.getNotesInterface().getNotes("Bearer " + tokenValue);
         Log.d("NOTES_VIEW_MODEL_DEBUG", "FETCHUJE" + tokenValue);
         notes.enqueue(new retrofit2.Callback<List<Note>>() {
@@ -53,12 +55,6 @@ public class NotesViewModel extends ViewModel {
 
     public MutableLiveData<List<Note>> getObservedNotes() {
         return mutableLiveList;
-    }
-    public MutableLiveData<String> getObservedToken() {
-        return token;
-    }
-    public void setToken(String token) {
-        this.token.setValue(token);
     }
 
 }

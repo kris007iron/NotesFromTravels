@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,7 +20,6 @@ public class AuthActivity extends AppCompatActivity {
         binding = ActivityAuthBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(Color.argb(255, 255, 255, 255));
-
 
         binding.btnLogin.setOnClickListener(v -> {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.0.171:8080/login"));
