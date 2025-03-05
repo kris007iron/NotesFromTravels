@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(Color.argb(255, 0, 0, 0));
 
-        NotesViewModel notesViewModel = new NotesViewModel();
+        NotesViewModel notesViewModel = new NotesViewModel(getApplication());
 
         Intent intent = getIntent();
         Uri data = intent.getData();
