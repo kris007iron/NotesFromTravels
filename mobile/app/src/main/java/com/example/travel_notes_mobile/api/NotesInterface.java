@@ -24,7 +24,7 @@ public interface NotesInterface {
     Call<Note> getNoteById(@Path("id") String id);
 
     @POST("notes")
-    Call<Note> postNote(@Body Note note);
+    Call<Note> postNote(@Header("Authorization") String token, @Body Note note);
 
     @PUT("notes/{id}")
     Call<Note> putNoteById(@Path("id") String id, @Body Note note);
