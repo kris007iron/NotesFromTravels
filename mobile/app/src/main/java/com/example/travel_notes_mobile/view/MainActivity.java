@@ -10,11 +10,18 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.travel_notes_mobile.adapters.NotesAdapter;
 import com.example.travel_notes_mobile.databinding.ActivityMainBinding;
+import com.example.travel_notes_mobile.model.Note;
 import com.example.travel_notes_mobile.viewmodel.NotesViewModel;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
+    private NotesViewModel notesViewModel;
+    private NotesAdapter notesAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(Color.argb(255, 0, 0, 0));
 
-        NotesViewModel notesViewModel = new NotesViewModel(getApplication());
-
+        Log.d("ELOOO", "czekam");
         Intent intent = getIntent();
         Uri data = intent.getData();
         if (data != null && data.isHierarchical()) {
@@ -35,8 +41,17 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("token", token);
             editor.apply();
-            notesViewModel.setToken(token);
+
+            notesViewModel = new NotesViewModel(getApplication());
             notesViewModel.fetchNotes();
+
+            notesViewModel.getObservedNotes().observe(this, notes -> {
+                if (notes != null){
+                    notesAdapter = new NotesAdapter(this, notes);
+                    binding.notesGrid.setAdapter(notesAdapter);
+                }
+            });
+
 
         }
     }
