@@ -10,6 +10,8 @@ import com.kris007iron.NotesFromTravels.Model.User;
 import com.kris007iron.NotesFromTravels.Repository.LocationRepository;
 import com.kris007iron.NotesFromTravels.Repository.NoteRepository;
 import com.kris007iron.NotesFromTravels.Repository.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -73,5 +75,33 @@ public class NoteService {
         newNote.setImageUrl(note.getImageUrl());
         noteRepository.save(newNote);
         return newNote;
+    }
+
+    public ResponseEntity<Optional<NoteResponseDTO>> updateNote(NoteDTO note, Long id, String login) {
+        Optional<Note> noteToUpdate = findUsersNoteById(login, id);
+        if(noteToUpdate.isPresent()){
+            noteToUpdate.get().setTitle(note.getTitle());
+            noteToUpdate.get().setContent(note.getContent());
+            Location locationToUpdate = noteToUpdate.get().getLocation();
+            locationToUpdate.setLongitude(note.getLocation().getLongitude());
+            locationToUpdate.setLatitude(note.getLocation().getLatitude());
+            locationRepository.save(locationToUpdate);
+            noteToUpdate.get().setImageUrl(note.getImageUrl());
+            noteRepository.save(noteToUpdate.get());
+        }
+        Optional<NoteResponseDTO> body = createNoteResponseDTOFromNote(noteToUpdate);
+        if(body.isPresent()){
+            return new ResponseEntity<>(body, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    private Optional<NoteResponseDTO> createNoteResponseDTOFromNote(Optional<Note> note){
+        return note.map(value -> new NoteResponseDTO(value.getId(),
+                value.getTitle(),
+                value.getContent(),
+                new LocationResponseDTO(value.getLocation().getId(), value.getLocation().getLatitude(), value.getLocation().getLongitude()),
+                value.getImageUrl()));
     }
 }
