@@ -2,6 +2,7 @@ package com.kris007iron.NotesFromTravels.Controller;
 
 import com.kris007iron.NotesFromTravels.Model.Note;
 import com.kris007iron.NotesFromTravels.Model.NoteDTO;
+import com.kris007iron.NotesFromTravels.Model.Response.MessageResponseDTO;
 import com.kris007iron.NotesFromTravels.Model.Response.NoteResponseDTO;
 import com.kris007iron.NotesFromTravels.Service.JwtService;
 import com.kris007iron.NotesFromTravels.Service.NoteService;
@@ -50,5 +51,11 @@ public class NoteController {
     public ResponseEntity<Optional<NoteResponseDTO>> updatedNote(@PathVariable Long id, @RequestBody NoteDTO note, HttpServletRequest request) {
         String login = JwtService.extractLoginFromAuth(request);
         return noteService.updateNote(note, id, login);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MessageResponseDTO> deleteNote(@PathVariable Long id, HttpServletRequest request) {
+        String login = JwtService.extractLoginFromAuth(request);
+        return noteService.deleteNote(id, login);
     }
 }
