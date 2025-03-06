@@ -1,6 +1,7 @@
 package com.kris007iron.NotesFromTravels.Auth;
 
 import com.kris007iron.NotesFromTravels.Service.JwtService;
+import com.kris007iron.NotesFromTravels.Service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,11 +21,15 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
-
+    private final UserService userService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
-
+        String role = JwtService.extractRoleFromAuth(request, userService);
+        if(request.getRequestURL().toString().startsWith("http://localhost:8080/api/v1/admin") && role.equals("USER")) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You are not authorized for this panel");
+            return;
+        }
         // Skip filtering if authentication is already set
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
             filterChain.doFilter(request, response);
