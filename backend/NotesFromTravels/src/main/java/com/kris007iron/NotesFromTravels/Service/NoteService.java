@@ -4,6 +4,7 @@ import com.kris007iron.NotesFromTravels.Model.Location;
 import com.kris007iron.NotesFromTravels.Model.Note;
 import com.kris007iron.NotesFromTravels.Model.NoteDTO;
 import com.kris007iron.NotesFromTravels.Model.Response.LocationResponseDTO;
+import com.kris007iron.NotesFromTravels.Model.Response.MessageResponseDTO;
 import com.kris007iron.NotesFromTravels.Model.Response.NoteResponseDTO;
 import com.kris007iron.NotesFromTravels.Model.Response.UserResponseDTO;
 import com.kris007iron.NotesFromTravels.Model.User;
@@ -103,5 +104,20 @@ public class NoteService {
                 value.getContent(),
                 new LocationResponseDTO(value.getLocation().getId(), value.getLocation().getLatitude(), value.getLocation().getLongitude()),
                 value.getImageUrl()));
+    }
+
+    public ResponseEntity<MessageResponseDTO> deleteNote(Long id, String login) {
+        Optional<Note> noteToDelete = findUsersNoteById(login, id);
+        if(noteToDelete.isPresent()){
+            try{
+                noteRepository.delete(noteToDelete.get());
+                return new ResponseEntity<>(new MessageResponseDTO("Note deleted successfully."), HttpStatus.OK);
+            } catch (Exception e){
+                return new ResponseEntity<>(new MessageResponseDTO("Internal server error: " + e), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }else
+        {
+            return new ResponseEntity<>(new MessageResponseDTO("Note doesn't exists"), HttpStatus.NOT_FOUND);
+        }
     }
 }
