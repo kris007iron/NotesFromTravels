@@ -1,5 +1,6 @@
 package com.example.travel_notes_mobile.view;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -41,6 +42,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private List<Address> list;
     private Geocoder geocoder;
 
+    private double latitude;
+    private double longitude;
+    private String locationName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +74,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (autocompleteFragment != null) {
             autocompleteFragment.setActivityMode(AutocompleteActivityMode.FULLSCREEN);
             autocompleteFragment.getView().setBackgroundColor(0x0000ff);
-            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
 
             autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
                 @Override
@@ -79,8 +84,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 @Override
                 public void onPlaceSelected(@NonNull Place place) {
+                    try{
+                        LatLng latLng = place.getLatLng();
+                        Log.d("ELOOO", "Place: " + place.getName() + ", " + latLng);
+                        longitude = latLng.longitude;
+                        latitude = latLng.latitude;
+                        locationName = place.getName();
+                    }
+                    catch (Exception e){
+                        Log.e("ELOOO", "Error in onPlaceSelected", e);
+                    }
+
                     try {
                         geocode(place.getName());
+
+
                     } catch (IOException e) {
                         Log.e("ELOOO", "Geocode error", e);
                     }
@@ -90,6 +108,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.e("ELOOO", "AutocompleteFragment is null");
         }
 
+
+
         MapsBottomFragment bottomFragment = new MapsBottomFragment();
         bottomFragment.show(getSupportFragmentManager(), "myBottom");
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -98,7 +118,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             Log.e("ELOOO", "FloatingActionButton is null");
         }
+
+        binding.sendCords.setOnClickListener(v->{
+            Intent intent = new Intent();
+            intent.putExtra("latitude", latitude);
+            intent.putExtra("longitude", longitude);
+            intent.putExtra("locationName", locationName);
+            intent.putExtra("requestCode", 1);
+            setResult(RESULT_OK, intent);
+            finish();
+
+        });
     }
+
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
