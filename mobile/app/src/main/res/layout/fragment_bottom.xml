@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.BottomFragment">
+
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:nestedScrollingEnabled="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="700dp"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title"
+            android:inputType="textEmailAddress"
+            android:padding="16dp"
+            android:background="@drawable/edit_text_background"
+            android:elevation="4dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray" />
+
+        <EditText
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:hint="@string/content"
+            android:inputType="textMultiLine"
+            android:padding="16dp"
+            android:background="@drawable/edit_text_background"
+            android:elevation="4dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:layout_marginTop="16dp"
+            android:id="@+id/background_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_background_link"
+            android:inputType="textUri"
+            android:padding="16dp"
+            android:background="@drawable/edit_text_background"
+            android:elevation="4dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray" />
+
+        <Button
+            android:id="@+id/choose_cords"
+            android:layout_width="match_parent"
+            android:padding="16dp"
+            android:layout_height="wrap_content"
+            android:text="Choose the place on the map"
+            android:backgroundTint="@color/light_primary_variant"
+            android:textColor="@color/white"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/save_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Save Note"
+            android:backgroundTint="@color/light_primary"
+            android:textColor="@color/text"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -36,93 +36,20 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <ScrollView
+        <GridView
+            android:id="@+id/notes_grid"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:padding="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@drawable/rounded_corners"
-                        android:padding="16dp"
-                        android:text="Hello World!"
-                        android:textSize="30sp"
-                        android:textAlignment="center"
-                        android:textColor="@color/text" />
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@drawable/rounded_corners"
-                        android:padding="16dp"
-                        android:text="Hello World!"
-                        android:textSize="30sp"
-                        android:textAlignment="center"
-                        android:textColor="@color/text" />
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@drawable/rounded_corners"
-                        android:padding="16dp"
-                        android:text="Hello World!"
-                        android:textSize="30sp"
-                        android:textAlignment="center"
-                        android:textColor="@color/text" />
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@drawable/rounded_corners"
-                        android:padding="16dp"
-                        android:text="Hello World!"
-                        android:textSize="30sp"
-                        android:textAlignment="center"
-                        android:textColor="@color/text" />
-                </androidx.cardview.widget.CardView>
-
-
-            </LinearLayout>
-        </ScrollView>
+            android:layout_height="match_parent"
+            android:numColumns="1"
+            android:verticalSpacing="16dp"
+            android:horizontalSpacing="16dp"
+            android:padding="16dp"
+            android:clipToPadding="false"
+            android:scrollbars="none" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/addNoteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/floating_action_button"
