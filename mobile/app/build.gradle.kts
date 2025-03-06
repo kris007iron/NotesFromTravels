@@ -35,6 +35,9 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.material:material:1.9.0")
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
     implementation(libs.places)
     implementation(libs.play.services.maps)
     implementation (libs.room.runtime)

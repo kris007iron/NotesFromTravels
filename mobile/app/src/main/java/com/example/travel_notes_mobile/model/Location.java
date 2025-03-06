@@ -1,6 +1,8 @@
 package com.example.travel_notes_mobile.model;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable {
     private double latitude;
     private double longitude;
 

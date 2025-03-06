@@ -1,0 +1,10 @@
+<resources>
+    <style name="roundedCorners" parent="Widget.MaterialComponents.ShapeableImageView">
+        <item name="shapeAppearance">@style/ShapeAppearanceOverlay.RoundedAllCorners</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.RoundedAllCorners" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+</resources>
