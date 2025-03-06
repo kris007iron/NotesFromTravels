@@ -26,8 +26,6 @@ public class NoteController {
     @GetMapping()
     public Optional<List<NoteResponseDTO>> getNotes(HttpServletRequest request) {
         String login = JwtService.extractLoginFromAuth(request);
-        System.out.println(login);
-        System.out.println(noteService.findNotesByUserLogin(login));
         return noteService.findNotesByUserLogin(login);
     }
 

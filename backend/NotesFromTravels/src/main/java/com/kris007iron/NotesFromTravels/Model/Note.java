@@ -18,6 +18,7 @@ public class Note {
     private Long id;
 
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String content;
     private String imageUrl;
     @ManyToOne(fetch = FetchType.LAZY)  // ✅ Changed from `@OneToOne` to `@ManyToOne`

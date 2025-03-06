@@ -35,7 +35,6 @@ public class NoteService {
 
     public Optional<List<NoteResponseDTO>> findNotesByUserLogin(String login) {
         Optional<User> user = userService.getUserByLogin(login);
-        System.out.println(user);
         ArrayList<NoteResponseDTO> noteResponseDTOS = new ArrayList<>();
         for (int i = 0; i < user.get().getNotes().size(); i++) {
             noteResponseDTOS.add(new NoteResponseDTO(user.get().getNotes().get(i).getId(),
@@ -110,7 +109,9 @@ public class NoteService {
         Optional<Note> noteToDelete = findUsersNoteById(login, id);
         if(noteToDelete.isPresent()){
             try{
-                noteRepository.delete(noteToDelete.get());
+                System.out.println(noteToDelete.get().getId());
+                noteToDelete.get().setUser(null);
+                noteRepository.deleteById(noteToDelete.get().getId());
                 return new ResponseEntity<>(new MessageResponseDTO("Note deleted successfully."), HttpStatus.OK);
             } catch (Exception e){
                 return new ResponseEntity<>(new MessageResponseDTO("Internal server error: " + e), HttpStatus.INTERNAL_SERVER_ERROR);
