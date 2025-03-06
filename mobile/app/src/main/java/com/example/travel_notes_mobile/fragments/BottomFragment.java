@@ -1,6 +1,7 @@
 package com.example.travel_notes_mobile.fragments;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,9 +14,12 @@ import android.widget.Toast;
 import com.example.travel_notes_mobile.databinding.FragmentBottomBinding;
 import com.example.travel_notes_mobile.model.Location;
 import com.example.travel_notes_mobile.model.Note;
+import com.example.travel_notes_mobile.view.MapsActivity;
 import com.example.travel_notes_mobile.viewmodel.NotesViewModel;
 import com.example.travel_notes_mobile.viewmodel.NotesViewModelFactory;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+
 public class BottomFragment extends BottomSheetDialogFragment {
     private FragmentBottomBinding binding;
 
@@ -39,6 +43,12 @@ public class BottomFragment extends BottomSheetDialogFragment {
 
         NotesViewModelFactory factory = NotesViewModelFactory.getInstance(application);
         NotesViewModel notesViewModel = new ViewModelProvider(requireActivity(), factory).get(NotesViewModel.class);
+
+        binding.chooseCords.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), MapsActivity.class);
+            Log.d("MAPPA", "JESTEM WE FRAGMENCIE");
+            startActivity(intent);
+        });
 
         binding.saveNote.setOnClickListener(v -> {
             String title = binding.title.getText().toString();
