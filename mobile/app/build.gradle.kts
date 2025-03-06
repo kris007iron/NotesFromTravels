@@ -35,6 +35,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.places)
+    implementation(libs.play.services.maps)
     implementation (libs.room.runtime)
     annotationProcessor(libs.room.compiler)
     implementation(libs.retrofit)
