@@ -15,7 +15,7 @@
 
     <color name="primary">#000000</color>
     <color name="light_primary">#F5F5F5</color>
-<!--    <color name="light_primary_variant">#C51D34</color>-->
+    <color name="better_red">#C51D34</color>
     <color name="light_primary_variant">#FFAC01</color>
 
     <color name="text">#1E2328</color>

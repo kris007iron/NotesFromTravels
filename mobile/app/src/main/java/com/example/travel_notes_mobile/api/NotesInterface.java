@@ -30,7 +30,7 @@ public interface NotesInterface {
     Call<Note> putNoteById(@Path("id") String id, @Body Note note);
 
     @DELETE("notes/{id}")
-    Call<MessageResponse> deleteNoteById(@Path("id") String id);
+    Call<MessageResponse> deleteNote(@Header("Authorization") String token , @Path("id") int id);
 
     @POST("/oauth/token")
     Call<AuthResponse> postAuthData(@Header("Authorization") String token);

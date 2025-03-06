@@ -12,24 +12,38 @@
         app:cardElevation="6dp"
         app:cardBackgroundColor="@color/white">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
             android:padding="12dp">
 
-            <TextView
-                android:id="@+id/title"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="40sp"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:textColor="@color/text"
-                android:padding="16dp"/>
+                android:orientation="vertical"
+                android:padding="12dp">
 
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="@color/text"
+                    android:padding="16dp"/>
+            </LinearLayout>
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/delete_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp"
+                android:src="@drawable/delete_24px"
+                app:tint="@color/better_red" />
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.travel_notes_mobile.database.NotesDatabase;
+import com.example.travel_notes_mobile.model.MessageResponse;
 import com.example.travel_notes_mobile.model.Note;
 import com.example.travel_notes_mobile.service.RetrofitService;
 
@@ -82,6 +83,29 @@ public class NotesViewModel extends ViewModel {
                 Log.d("KUUPA", t.getMessage());
             }
         });
+    }
+    public void deleteNote(Note note){
+        SharedPreferences sharedPreferences = application.getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
+        String tokenValue = sharedPreferences.getString("token", "");
+        Call<MessageResponse> notes = RetrofitService.getNotesInterface().deleteNote("Bearer " + tokenValue, note.getId());
+        notes.enqueue(new retrofit2.Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, retrofit2.Response<MessageResponse> response) {
+                List<Note> currentNotes = mutableLiveList.getValue();
+                if (currentNotes != null) {
+                    List<Note> updatedNotes = new ArrayList<>(currentNotes);
+                    updatedNotes.remove(note);
+                    mutableLiveList.setValue(updatedNotes);
+                    notesDatabase.notesDAO().deleteNoteById(note.getId());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+                Log.d("KUUPA", t.getMessage());
+            }
+        });
+
     }
 
 
