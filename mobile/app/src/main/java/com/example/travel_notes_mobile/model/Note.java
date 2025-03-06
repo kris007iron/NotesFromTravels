@@ -1,16 +1,28 @@
 package com.example.travel_notes_mobile.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "notes")
 public class Note {
-    private String id;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @ColumnInfo(name = "title")
     private String title;
+    @ColumnInfo(name = "content")
     private String content;
+    @ColumnInfo(name = "location")
     private Location location;
+    @ColumnInfo(name = "image_url")
     private String imageUrl;
+    @ColumnInfo(name = "created_at")
     private String createdAt;
+    @ColumnInfo(name = "updated_at")
     private String updatedAt;
 
 
-    public Note(String id, String title, String content, Location location, String imageUrl, String createdAt, String updatedAt) {
+    public Note(int id, String title, String content, Location location, String imageUrl, String createdAt, String updatedAt) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -20,11 +32,11 @@ public class Note {
         this.updatedAt = updatedAt;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
