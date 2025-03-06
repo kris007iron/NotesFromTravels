@@ -42,8 +42,8 @@ Retrieves a list of all notes for the authenticated user.
       "longitude": -74.0060
     },
     "imageUrl": "https://example.com/images/note123.jpg",
-    "createdAt": "2025-02-01T10:00:00Z",
-    "updatedAt": "2025-02-02T12:00:00Z"
+    //"createdAt": "2025-02-01T10:00:00Z",
+    //"updatedAt": "2025-02-02T12:00:00Z"
   },
   {
     "id": "note124",
@@ -51,8 +51,8 @@ Retrieves a list of all notes for the authenticated user.
     "content": "Milk, Bread, Eggs...",
     "location": null,
     "imageUrl": null,
-    "createdAt": "2025-02-03T08:30:00Z",
-    "updatedAt": "2025-02-03T08:30:00Z"
+    //"createdAt": "2025-02-03T08:30:00Z",
+    //"updatedAt": "2025-02-03T08:30:00Z"
   }
 ]
 ```
@@ -92,8 +92,8 @@ Retrieves detailed information for a specific note identified by its ID.
     "longitude": -74.0060
   },
   "imageUrl": "https://example.com/images/note123.jpg",
-  "createdAt": "2025-02-01T10:00:00Z",
-  "updatedAt": "2025-02-02T12:00:00Z"
+  //"createdAt": "2025-02-01T10:00:00Z",
+  //"updatedAt": "2025-02-02T12:00:00Z"
 }
 ```
 
@@ -153,8 +153,8 @@ Creates a new note for the authenticated user. The note can include a title, con
     "longitude": -122.4194
   },
   "imageUrl": "https://example.com/images/newnote.jpg",
-  "createdAt": "2025-02-05T14:20:00Z",
-  "updatedAt": "2025-02-05T14:20:00Z"
+  //"createdAt": "2025-02-05T14:20:00Z",
+  //"updatedAt": "2025-02-05T14:20:00Z"
 }
 ```
 
@@ -214,8 +214,8 @@ Updates an existing note identified by its ID. Users can modify the title, conte
     "longitude": -122.4183
   },
   "imageUrl": "https://example.com/images/updatednote.jpg",
-  "createdAt": "2025-02-01T10:00:00Z",
-  "updatedAt": "2025-02-05T15:00:00Z"
+  //"createdAt": "2025-02-01T10:00:00Z",
+  //"updatedAt": "2025-02-05T15:00:00Z"
 }
 ```
 
