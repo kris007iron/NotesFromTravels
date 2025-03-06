@@ -45,4 +45,10 @@ public class NoteController {
         System.out.println("Created Note:" + createdNote.toString());
         return new ResponseEntity<>(createdNote, HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Optional<NoteResponseDTO>> updatedNote(@PathVariable Long id, @RequestBody NoteDTO note, HttpServletRequest request) {
+        String login = JwtService.extractLoginFromAuth(request);
+        return noteService.updateNote(note, id, login);
+    }
 }
