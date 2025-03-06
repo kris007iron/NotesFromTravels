@@ -1,6 +1,9 @@
 package com.example.travel_notes_mobile.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.travel_notes_mobile.R;
 import com.example.travel_notes_mobile.model.Note;
+import com.example.travel_notes_mobile.view.SingleNoteActivity;
 
 import java.util.List;
 
@@ -51,6 +55,14 @@ public class NotesAdapter extends BaseAdapter {
         TextView title = convertView.findViewById(R.id.title);
 
         title.setText(note.getTitle());
+
+        convertView.setOnClickListener(v->{
+
+            Intent intent = new Intent(context, SingleNoteActivity.class);
+            intent.putExtra("note", note);
+            Log.d("ELOOO", "Starting SingleNoteActivity");
+            context.startActivity(intent);
+        });
 
         return convertView;
     }

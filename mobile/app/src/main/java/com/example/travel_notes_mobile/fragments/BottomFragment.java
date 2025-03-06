@@ -52,7 +52,6 @@ public class BottomFragment extends BottomSheetDialogFragment {
 
         binding.chooseCords.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), MapsActivity.class);
-            Log.d("MAPPA", "JESTEM WE FRAGMENCIE");
             startActivityForResult(intent, 1);
         });
 
@@ -61,8 +60,12 @@ public class BottomFragment extends BottomSheetDialogFragment {
             String title = binding.title.getText().toString();
             String content = binding.desc.getText().toString();
             Location location = new Location(latitude, longitude);
+            String imageUrl = binding.backgroundLink.getText().toString();
+            if(imageUrl.isEmpty()) {
+                imageUrl = "https://images.pexels.com/photos/2265876/pexels-photo-2265876.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+            }
 
-            Note note = new Note(0, title, content, location, null, null, null);
+            Note note = new Note(0, title, content, location, imageUrl, null, null);
             notesViewModel.postNote(note);
             Toast.makeText(getContext(), "Note saved", Toast.LENGTH_SHORT).show();
 
