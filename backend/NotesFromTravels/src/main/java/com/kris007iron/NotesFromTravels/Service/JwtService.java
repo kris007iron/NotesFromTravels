@@ -1,5 +1,6 @@
 package com.kris007iron.NotesFromTravels.Service;
 
+import com.kris007iron.NotesFromTravels.Model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -15,6 +16,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class JwtService {
@@ -88,5 +90,11 @@ public class JwtService {
             return JwtService.getLoginFromToken(token);
         }
         return null;
+    }
+
+    public static String extractRoleFromAuth(HttpServletRequest request, UserService userService) {
+        String login = extractLoginFromAuth(request);
+        Optional<User> user = userService.getUserByLogin(login);
+        return user.map(User::getRole).orElse(null);
     }
 }
