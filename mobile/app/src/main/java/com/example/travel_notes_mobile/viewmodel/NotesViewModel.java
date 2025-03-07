@@ -107,6 +107,33 @@ public class NotesViewModel extends ViewModel {
         });
 
     }
+    public void updateNote(Note note){
+        SharedPreferences sharedPreferences = application.getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
+        String tokenValue = sharedPreferences.getString("token", "");
+        Call<MessageResponse> notes = RetrofitService.getNotesInterface().putNoteById(String.valueOf(note.getId()), note, "Bearer " + tokenValue);
+        notes.enqueue(new retrofit2.Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, retrofit2.Response<MessageResponse> response) {
+                List<Note> currentNotes = mutableLiveList.getValue();
+                if (currentNotes != null) {
+                    List<Note> updatedNotes = new ArrayList<>(currentNotes);
+                    for (int i = 0; i < updatedNotes.size(); i++) {
+                        if (updatedNotes.get(i).getId() == note.getId()) {
+                            updatedNotes.set(i, note);
+                            break;
+                        }
+                    }
+                    mutableLiveList.setValue(updatedNotes);
+                    notesDatabase.notesDAO().updateNoteById(note.getId(), note.getTitle(), note.getContent(), note.getLocation(), note.getImageUrl(), note.getUpdatedAt());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+                Log.d("KUUPA", t.getMessage());
+            }
+        });
+    }
 
 
     public MutableLiveData<List<Note>> getObservedNotes() {

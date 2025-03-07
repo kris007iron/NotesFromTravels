@@ -108,6 +108,8 @@ public class NoteService {
     public ResponseEntity<MessageResponseDTO> deleteNote(Long id, String login) {
         Optional<Note> noteToDelete = findUsersNoteById(login, id);
         if(noteToDelete.isPresent()){
+            System.out.println("SIEMA ID" + noteToDelete.get().getId());
+
             try{
                 System.out.println(noteToDelete.get().getId());
                 noteToDelete.get().setUser(null);
