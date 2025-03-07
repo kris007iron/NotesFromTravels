@@ -54,6 +54,7 @@ public class NoteController {
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponseDTO> deleteNote(@PathVariable Long id, HttpServletRequest request) {
         String login = JwtService.extractLoginFromAuth(request);
+        System.out.println("SIEMA LOGIN" + login);
         return noteService.deleteNote(id, login);
     }
 }
