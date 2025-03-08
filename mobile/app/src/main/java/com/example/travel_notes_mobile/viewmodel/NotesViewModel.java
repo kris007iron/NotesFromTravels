@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.travel_notes_mobile.database.NotesDatabase;
+import com.example.travel_notes_mobile.model.Location;
 import com.example.travel_notes_mobile.model.MessageResponse;
 import com.example.travel_notes_mobile.model.Note;
 import com.example.travel_notes_mobile.service.RetrofitService;

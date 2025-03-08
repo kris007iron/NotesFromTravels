@@ -29,9 +29,10 @@
                 android:background="@drawable/account_circle_24px"
                 android:contentDescription="@string/usericon" />
             <ImageButton
+                android:id="@+id/mapButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/settings_24px"
+                android:background="@drawable/map_24px"
                 />
 
         </androidx.appcompat.widget.Toolbar>
