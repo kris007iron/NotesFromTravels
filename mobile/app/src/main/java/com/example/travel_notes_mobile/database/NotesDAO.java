@@ -24,4 +24,7 @@ public interface NotesDAO {
     @Query("UPDATE notes SET title = :title, content = :content, location = :location, image_url = :imageUrl, updated_at = :updatedAt WHERE id = :id")
     void updateNoteById(int id, String title, String content, Location location, String imageUrl, String updatedAt);
 
+    @Query("SELECT location FROM notes")
+    Location[] getAllLocations();
+
 }

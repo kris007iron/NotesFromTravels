@@ -5,16 +5,25 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.travel_notes_mobile.R;
 import com.example.travel_notes_mobile.databinding.ActivityMapsBinding;
 import com.example.travel_notes_mobile.fragments.MapsBottomFragment;
+import com.example.travel_notes_mobile.model.Location;
 import com.example.travel_notes_mobile.model.OnMapTypeChangeListener;
+import com.example.travel_notes_mobile.viewmodel.LocationsViewModel;
+import com.example.travel_notes_mobile.viewmodel.NotesViewModel;
+import com.example.travel_notes_mobile.viewmodel.NotesViewModelFactory;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -41,7 +51,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private List<Address> list;
     private Geocoder geocoder;
-
+    private NotesViewModel notesViewModel;
     private double latitude;
     private double longitude;
     private String locationName;
@@ -111,7 +121,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         MapsBottomFragment bottomFragment = new MapsBottomFragment();
-        bottomFragment.show(getSupportFragmentManager(), "myBottom");
+//        bottomFragment.show(getSupportFragmentManager(), "myBottom");
         FloatingActionButton fab = findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(v -> bottomFragment.show(getSupportFragmentManager(), "myBottom"));
@@ -136,6 +146,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
         setupMap();
+        boolean allLocations = getIntent().getBooleanExtra("all_locations", false);
+        if (allLocations){
+            binding.sendCords.setVisibility(View.INVISIBLE);
+
+            LocationsViewModel locationsViewModel = new LocationsViewModel(getApplication());
+            locationsViewModel.getLocationsFromDatabase();
+            Location[] visited_locations = locationsViewModel.getObservedLocations().getValue();
+            if(visited_locations == null){
+                visited_locations = new Location[0];
+            }
+            else{
+                Handler handler = new Handler(Looper.getMainLooper());
+                int delay = 4000;
+                for (Location location : visited_locations) {
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    map.addMarker(new MarkerOptions().position(latLng).title(""));
+                }
+            }
+        }
     }
 
     private void setupMap() {

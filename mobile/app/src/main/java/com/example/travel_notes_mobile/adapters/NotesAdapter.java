@@ -62,9 +62,12 @@ public class NotesAdapter extends BaseAdapter {
         }
         Note note = notes.get(i);
         TextView title = convertView.findViewById(R.id.title);
+        TextView location = convertView.findViewById(R.id.location);
+
 
         title.setText(note.getTitle());
-
+        String location_string = "Coordinates: " + note.getLocation().getLatitude() + ", " + note.getLocation().getLongitude();
+        location.setText(location_string);
         ImageView delete = convertView.findViewById(R.id.delete_icon);
         delete.setOnClickListener(v->{
             notes.remove(note);

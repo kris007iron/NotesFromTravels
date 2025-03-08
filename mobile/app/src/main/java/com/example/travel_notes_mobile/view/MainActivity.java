@@ -63,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
             bottomFragment.show(getSupportFragmentManager(), bottomFragment.getTag());
 
         });
+        binding.mapButton.setOnClickListener(v -> {
+            Intent intent1 = new Intent(this, MapsActivity.class);
+            intent1.putExtra("all_locations", true);
+            startActivity(intent1);
+        });
 
 
     }
