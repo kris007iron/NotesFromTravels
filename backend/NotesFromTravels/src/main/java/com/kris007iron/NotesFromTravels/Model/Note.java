@@ -18,11 +18,12 @@ public class Note {
     private Long id;
 
     private String title;
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 2000)
     private String content;
     private String imageUrl;
-    @ManyToOne(fetch = FetchType.LAZY)  // ✅ Changed from `@OneToOne` to `@ManyToOne`
-    @JoinColumn(name = "location_id")
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
     @EqualsAndHashCode.Exclude
     private Location location;
 
