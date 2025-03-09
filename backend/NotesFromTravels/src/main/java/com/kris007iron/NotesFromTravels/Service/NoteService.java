@@ -50,12 +50,27 @@ public class NoteService {
         return Optional.of(noteResponseDTOS);
     }
 
-    public Optional<Note> findUsersNoteById(String login, Long id) {
+    private Optional<Note> findUsersNoteById(String login, Long id) {
         Optional<User> user = userService.getUserByLogin(login);
         Optional<Note> note = noteRepository.findById(id);
         if (note.isPresent() && user.isPresent()){
             if (user.get().getNotes().contains(note.get())){
                 return note;
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<NoteResponseDTO> getUsersNoteById(String login, Long id) {
+        Optional<User> user = userService.getUserByLogin(login);
+        Optional<Note> note = noteRepository.findById(id);
+        if (note.isPresent() && user.isPresent()){
+            if (user.get().getNotes().contains(note.get())){
+                return Optional.of(new NoteResponseDTO(note.get().getId(),
+                        note.get().getTitle(),
+                        note.get().getContent(),
+                        new LocationResponseDTO(note.get().getLocation().getId(), note.get().getLocation().getLatitude(), note.get().getLocation().getLongitude()),
+                        note.get().getImageUrl()));
             }
         }
         return Optional.empty();
@@ -110,7 +125,10 @@ public class NoteService {
         if(noteToDelete.isPresent()){
             try{
                 System.out.println(noteToDelete.get().getId());
+                User user = noteToDelete.get().getUser();
+                user.getNotes().remove(noteToDelete.get());
                 noteToDelete.get().setUser(null);
+
                 noteRepository.deleteById(noteToDelete.get().getId());
                 return new ResponseEntity<>(new MessageResponseDTO("Note deleted successfully."), HttpStatus.OK);
             } catch (Exception e){
