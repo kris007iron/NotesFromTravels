@@ -6,7 +6,6 @@ import com.kris007iron.NotesFromTravels.Model.NoteDTO;
 import com.kris007iron.NotesFromTravels.Model.Response.LocationResponseDTO;
 import com.kris007iron.NotesFromTravels.Model.Response.MessageResponseDTO;
 import com.kris007iron.NotesFromTravels.Model.Response.NoteResponseDTO;
-import com.kris007iron.NotesFromTravels.Model.Response.UserResponseDTO;
 import com.kris007iron.NotesFromTravels.Model.User;
 import com.kris007iron.NotesFromTravels.Repository.LocationRepository;
 import com.kris007iron.NotesFromTravels.Repository.NoteRepository;
@@ -43,10 +42,6 @@ public class NoteService {
                     new LocationResponseDTO(user.get().getNotes().get(i).getLocation().getId(), user.get().getNotes().get(i).getLocation().getLatitude(), user.get().getNotes().get(i).getLocation().getLongitude()),
                     user.get().getNotes().get(i).getImageUrl()));
         }
-        new UserResponseDTO(
-                user.get().getId(),
-                user.get().getLogin(),
-                noteResponseDTOS);
         return Optional.of(noteResponseDTOS);
     }
 
