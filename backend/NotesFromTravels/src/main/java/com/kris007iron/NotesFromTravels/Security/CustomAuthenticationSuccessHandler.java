@@ -35,7 +35,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if(user.getRole().equals("USER")) {
             response.sendRedirect("/token?token=" + token);
         }else if(user.getRole().equals("ADMIN")) {
-            response.sendRedirect("/api/v1/admin");
+            response.sendRedirect("/token?token=" + token);
         }
     }
 }
