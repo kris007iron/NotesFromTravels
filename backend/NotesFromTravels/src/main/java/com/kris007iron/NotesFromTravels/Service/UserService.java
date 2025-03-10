@@ -1,9 +1,14 @@
 package com.kris007iron.NotesFromTravels.Service;
 
+import com.kris007iron.NotesFromTravels.Model.Response.UserResponseDTO;
 import com.kris007iron.NotesFromTravels.Model.User;
 import com.kris007iron.NotesFromTravels.Repository.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,5 +32,10 @@ public class UserService {
 
     public Optional<User> getUserByLogin(String login) {
         return userRepository.findByLogin(login);
+    }
+
+    public ResponseEntity<List<UserResponseDTO>> getUsers() {
+        List<UserResponseDTO> users = new ArrayList<>();
+        return new ResponseEntity<>(users, HttpStatus.OK );
     }
 }
