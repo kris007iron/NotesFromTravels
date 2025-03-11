@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.example.travel_notes_mobile.model.Location;
 import com.example.travel_notes_mobile.model.Note;
 import com.example.travel_notes_mobile.view.MapsActivity;
 import com.example.travel_notes_mobile.viewmodel.NotesViewModel;
-import com.example.travel_notes_mobile.viewmodel.NotesViewModelFactory;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 
@@ -47,8 +45,7 @@ public class BottomFragment extends BottomSheetDialogFragment {
         binding = FragmentBottomBinding.inflate(getLayoutInflater());
         Application application = requireActivity().getApplication();
 
-        NotesViewModelFactory factory = NotesViewModelFactory.getInstance(application);
-        NotesViewModel notesViewModel = new ViewModelProvider(requireActivity(), factory).get(NotesViewModel.class);
+        NotesViewModel notesViewModel = new ViewModelProvider(requireActivity()).get(NotesViewModel.class);
 
         binding.chooseCords.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), MapsActivity.class);

@@ -27,4 +27,7 @@ public interface NotesDAO {
     @Query("SELECT location FROM notes")
     Location[] getAllLocations();
 
+    @Query("SELECT * FROM notes")
+    Note[] getAllNotes();
+
 }
