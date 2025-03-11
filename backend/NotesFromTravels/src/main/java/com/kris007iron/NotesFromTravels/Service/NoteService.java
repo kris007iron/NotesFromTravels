@@ -6,7 +6,6 @@ import com.kris007iron.NotesFromTravels.Model.NoteDTO;
 import com.kris007iron.NotesFromTravels.Model.Response.LocationResponseDTO;
 import com.kris007iron.NotesFromTravels.Model.Response.MessageResponseDTO;
 import com.kris007iron.NotesFromTravels.Model.Response.NoteResponseDTO;
-import com.kris007iron.NotesFromTravels.Model.Response.UserResponseDTO;
 import com.kris007iron.NotesFromTravels.Model.User;
 import com.kris007iron.NotesFromTravels.Repository.LocationRepository;
 import com.kris007iron.NotesFromTravels.Repository.NoteRepository;
@@ -33,21 +32,22 @@ public class NoteService {
         this.userRepository = userRepository;
     }
 
-    public Optional<List<NoteResponseDTO>> findNotesByUserLogin(String login) {
+    public ResponseEntity<Optional<List<NoteResponseDTO>>> findNotesByUserLogin(String login) {
         Optional<User> user = userService.getUserByLogin(login);
         ArrayList<NoteResponseDTO> noteResponseDTOS = new ArrayList<>();
-        for (int i = 0; i < user.get().getNotes().size(); i++) {
-            noteResponseDTOS.add(new NoteResponseDTO(user.get().getNotes().get(i).getId(),
-                    user.get().getNotes().get(i).getTitle(),
-                    user.get().getNotes().get(i).getContent(),
-                    new LocationResponseDTO(user.get().getNotes().get(i).getLocation().getId(), user.get().getNotes().get(i).getLocation().getLatitude(), user.get().getNotes().get(i).getLocation().getLongitude()),
-                    user.get().getNotes().get(i).getImageUrl()));
+        if(user.isPresent()) {
+            for (int i = 0; i < user.get().getNotes().size(); i++) {
+                noteResponseDTOS.add(new NoteResponseDTO(user.get().getNotes().get(i).getId(),
+                        user.get().getNotes().get(i).getTitle(),
+                        user.get().getNotes().get(i).getContent(),
+                        new LocationResponseDTO(user.get().getNotes().get(i).getLocation().getId(), user.get().getNotes().get(i).getLocation().getLatitude(), user.get().getNotes().get(i).getLocation().getLongitude()),
+                        user.get().getNotes().get(i).getImageUrl()));
+            }
+            return new ResponseEntity<>(Optional.of(noteResponseDTOS), HttpStatus.OK);
         }
-        new UserResponseDTO(
-                user.get().getId(),
-                user.get().getLogin(),
-                noteResponseDTOS);
-        return Optional.of(noteResponseDTOS);
+        else {
+            return new ResponseEntity<>(Optional.empty(), HttpStatus.UNAUTHORIZED);
+        }
     }
 
     private Optional<Note> findUsersNoteById(String login, Long id) {
@@ -61,35 +61,42 @@ public class NoteService {
         return Optional.empty();
     }
 
-    public Optional<NoteResponseDTO> getUsersNoteById(String login, Long id) {
+    public ResponseEntity<Optional<NoteResponseDTO>> getUsersNoteById(String login, Long id) {
         Optional<User> user = userService.getUserByLogin(login);
         Optional<Note> note = noteRepository.findById(id);
         if (note.isPresent() && user.isPresent()){
             if (user.get().getNotes().contains(note.get())){
-                return Optional.of(new NoteResponseDTO(note.get().getId(),
+                Optional<NoteResponseDTO> responseDTOOptional = Optional.of(new NoteResponseDTO(note.get().getId(),
                         note.get().getTitle(),
                         note.get().getContent(),
                         new LocationResponseDTO(note.get().getLocation().getId(), note.get().getLocation().getLatitude(), note.get().getLocation().getLongitude()),
                         note.get().getImageUrl()));
+                return new ResponseEntity<>(responseDTOOptional, HttpStatus.OK);
+
             }
         }
-        return Optional.empty();
+        return new ResponseEntity<>(Optional.empty(), HttpStatus.NOT_FOUND);
     }
 
-    public Note createNote(NoteDTO note, String login) {
-        Note newNote = new Note();
+    public ResponseEntity<Optional<Note>> createNote(NoteDTO note, String login) {
+
         Location newLocation = new Location();
 
-        newLocation.setLatitude(note.getLocation().getLatitude());
-        newLocation.setLongitude(note.getLocation().getLongitude());
-        locationRepository.save(newLocation);
-        newNote.setTitle(note.getTitle());
-        newNote.setContent(note.getContent());
-        newNote.setLocation(newLocation);
-        newNote.setUser(userRepository.findByLogin(login).get());
-        newNote.setImageUrl(note.getImageUrl());
-        noteRepository.save(newNote);
-        return newNote;
+        if(userRepository.findByLogin(login).isPresent()) {
+            Note newNote = new Note();
+            newLocation.setLatitude(note.getLocation().getLatitude());
+            newLocation.setLongitude(note.getLocation().getLongitude());
+            locationRepository.save(newLocation);
+            newNote.setTitle(note.getTitle());
+            newNote.setContent(note.getContent());
+            newNote.setLocation(newLocation);
+            newNote.setUser(userRepository.findByLogin(login).get());
+            newNote.setImageUrl(note.getImageUrl());
+            noteRepository.save(newNote);
+            return new ResponseEntity<>(Optional.of(newNote), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(Optional.empty(), HttpStatus.UNAUTHORIZED);
+        }
     }
 
     public ResponseEntity<Optional<NoteResponseDTO>> updateNote(NoteDTO note, Long id, String login) {
