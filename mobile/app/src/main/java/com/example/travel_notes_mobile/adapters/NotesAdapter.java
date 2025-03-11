@@ -70,10 +70,10 @@ public class NotesAdapter extends BaseAdapter {
         location.setText(location_string);
         ImageView delete = convertView.findViewById(R.id.delete_icon);
         delete.setOnClickListener(v->{
-//            notes.remove(note);
+            notes.remove(note);
+            notifyDataSetChanged();
             NotesViewModel notesViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(NotesViewModel.class);
             notesViewModel.deleteNote(note);
-            notifyDataSetChanged();
 
             Toast.makeText(context, "Note deleted", Toast.LENGTH_SHORT).show();
 
