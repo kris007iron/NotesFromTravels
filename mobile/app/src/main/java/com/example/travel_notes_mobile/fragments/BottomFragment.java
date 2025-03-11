@@ -3,8 +3,12 @@ package com.example.travel_notes_mobile.fragments;
 import static android.app.Activity.RESULT_OK;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -19,6 +23,7 @@ import com.example.travel_notes_mobile.view.MapsActivity;
 import com.example.travel_notes_mobile.viewmodel.NotesViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BottomFragment extends BottomSheetDialogFragment {
     private FragmentBottomBinding binding;
@@ -26,6 +31,21 @@ public class BottomFragment extends BottomSheetDialogFragment {
     private double longitude = 0;
     private String locationName = "";
 
+    public interface BottomFragmentListener {
+        void onNoteSaved(Note note);
+    }
+
+    private BottomFragmentListener listener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            listener = (BottomFragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement BottomFragmentListener");
+        }
+    }
 
     public BottomFragment() {
         // Required empty public constructor
@@ -58,19 +78,31 @@ public class BottomFragment extends BottomSheetDialogFragment {
             String content = binding.desc.getText().toString();
             Location location = new Location(latitude, longitude);
             String imageUrl = binding.backgroundLink.getText().toString();
-            if(imageUrl.isEmpty()) {
+            if (imageUrl.isEmpty()) {
                 imageUrl = "https://images.pexels.com/photos/2265876/pexels-photo-2265876.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
             }
 
             Note note = new Note(0, title, content, location, imageUrl, null, null);
-            notesViewModel.postNote(note);
-            Toast.makeText(getContext(), "Note saved", Toast.LENGTH_SHORT).show();
+            MutableLiveData<Note> n = notesViewModel.postNote(note);
+            AtomicBoolean created = new AtomicBoolean(false);
+            n.observe(getViewLifecycleOwner(), note1 -> {
+                if (created.get()) {
+                    return;
+                }
+                note.setId(note1.getId());
+                created.set(true);
+                Toast.makeText(getContext(), "Note saved", Toast.LENGTH_SHORT).show();
+                listener.onNoteSaved(note);
+                dismiss();
 
-            dismiss();
+            });
+
+
         });
 
         return binding.getRoot();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

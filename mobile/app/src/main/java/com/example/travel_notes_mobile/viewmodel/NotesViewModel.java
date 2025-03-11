@@ -65,7 +65,8 @@ public class NotesViewModel extends AndroidViewModel {
         });
     }
 
-    public void postNote(Note note) {
+    public MutableLiveData<Note> postNote(Note note) {
+        MutableLiveData<Note> result = new MutableLiveData<>();
         SharedPreferences sharedPreferences = application.getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
         String tokenValue = sharedPreferences.getString("token", "");
         Call<Note> notes = RetrofitService.getNotesInterface().postNote("Bearer " + tokenValue, note);
@@ -83,6 +84,7 @@ public class NotesViewModel extends AndroidViewModel {
                     notesDatabase.notesDAO().insertNote(response.body());
 
                 }
+                result.setValue(response.body());
                 Log.d("KUUPA", response.body().getTitle());
             }
 
@@ -91,6 +93,7 @@ public class NotesViewModel extends AndroidViewModel {
                 Log.d("KUUPA", t.getMessage());
             }
         });
+        return result;
     }
 
     public void deleteNote(Note note) {
