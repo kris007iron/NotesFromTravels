@@ -8,7 +8,6 @@ import com.kris007iron.NotesFromTravels.Service.JwtService;
 import com.kris007iron.NotesFromTravels.Service.NoteService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,25 +23,23 @@ public class NoteController {
     private final NoteService noteService;
 
     @GetMapping()
-    public Optional<List<NoteResponseDTO>> getNotes(HttpServletRequest request) {
+    public ResponseEntity<Optional<List<NoteResponseDTO>>> getNotes(HttpServletRequest request) {
         String login = JwtService.extractLoginFromAuth(request);
         return noteService.findNotesByUserLogin(login);
     }
 
     @GetMapping("/{id}")
-    public Optional<NoteResponseDTO> getNoteById(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<Optional<NoteResponseDTO>> getNoteById(@PathVariable Long id, HttpServletRequest request) {
         String login = JwtService.extractLoginFromAuth(request);
 
         return  noteService.getUsersNoteById(login, id);
     }
 
     @PostMapping()
-    public ResponseEntity<Note> createNote(@RequestBody NoteDTO note, HttpServletRequest request)
+    public ResponseEntity<Optional<Note>> createNote(@RequestBody NoteDTO note, HttpServletRequest request)
     {
         String login = JwtService.extractLoginFromAuth(request);
-        Note createdNote = noteService.createNote(note, login);
-        System.out.println("Created Note:" + createdNote.toString());
-        return new ResponseEntity<>(createdNote, HttpStatus.OK);
+        return noteService.createNote(note, login);
     }
 
     @PutMapping("/{id}")
