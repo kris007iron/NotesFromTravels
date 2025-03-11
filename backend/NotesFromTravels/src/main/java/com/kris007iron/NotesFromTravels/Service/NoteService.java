@@ -56,19 +56,21 @@ public class NoteService {
         return Optional.empty();
     }
 
-    public Optional<NoteResponseDTO> getUsersNoteById(String login, Long id) {
+    public ResponseEntity<Optional<NoteResponseDTO>> getUsersNoteById(String login, Long id) {
         Optional<User> user = userService.getUserByLogin(login);
         Optional<Note> note = noteRepository.findById(id);
         if (note.isPresent() && user.isPresent()){
             if (user.get().getNotes().contains(note.get())){
-                return Optional.of(new NoteResponseDTO(note.get().getId(),
+                Optional<NoteResponseDTO> responseDTOOptional = Optional.of(new NoteResponseDTO(note.get().getId(),
                         note.get().getTitle(),
                         note.get().getContent(),
                         new LocationResponseDTO(note.get().getLocation().getId(), note.get().getLocation().getLatitude(), note.get().getLocation().getLongitude()),
                         note.get().getImageUrl()));
+                return new ResponseEntity<>(responseDTOOptional, HttpStatus.OK);
+
             }
         }
-        return Optional.empty();
+        return new ResponseEntity<>(Optional.empty(), HttpStatus.NOT_FOUND);
     }
 
     public Note createNote(NoteDTO note, String login) {

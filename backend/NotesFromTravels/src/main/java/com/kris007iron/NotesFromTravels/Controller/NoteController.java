@@ -30,7 +30,7 @@ public class NoteController {
     }
 
     @GetMapping("/{id}")
-    public Optional<NoteResponseDTO> getNoteById(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<Optional<NoteResponseDTO>> getNoteById(@PathVariable Long id, HttpServletRequest request) {
         String login = JwtService.extractLoginFromAuth(request);
 
         return  noteService.getUsersNoteById(login, id);
