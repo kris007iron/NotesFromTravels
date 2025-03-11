@@ -25,6 +25,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
+        System.out.println("auth:" + authHeader);
         String role = JwtService.extractRoleFromAuth(request, userService);
         if(request.getRequestURL().toString().startsWith("http://localhost:8080/api/v1/admin") && role.equals("USER")) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You are not authorized for this panel");
