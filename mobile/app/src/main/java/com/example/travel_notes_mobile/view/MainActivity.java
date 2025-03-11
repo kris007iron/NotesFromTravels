@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomFragment.BottomFragmentListener {
     private ActivityMainBinding binding;
     private NotesViewModel notesViewModel;
     private NotesAdapter notesAdapter;
@@ -88,5 +88,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+    }
+    @Override
+    public void onNoteSaved(Note note){
+        Note[] notes = notesViewModel.getAllNotes();
+        List<Note> notesList = new ArrayList<>();
+        Collections.addAll(notesList, notes);
+        notesViewModel.setMutableLiveList(new MutableLiveData<>(notesList));
+        notesAdapter.updateNotes(notesList);
     }
 }
