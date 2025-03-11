@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.travel_notes_mobile.adapters.NotesAdapter;
@@ -16,9 +17,11 @@ import com.example.travel_notes_mobile.databinding.ActivityMainBinding;
 import com.example.travel_notes_mobile.fragments.BottomFragment;
 import com.example.travel_notes_mobile.model.Note;
 import com.example.travel_notes_mobile.viewmodel.NotesViewModel;
-import com.example.travel_notes_mobile.viewmodel.NotesViewModelFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -44,18 +47,14 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("token", token);
             editor.apply();
 
-            NotesViewModelFactory factory = NotesViewModelFactory.getInstance(getApplication());
-            notesViewModel = new ViewModelProvider(this, factory).get(NotesViewModel.class);
-            notesViewModel.fetchNotes();
+            notesViewModel = new ViewModelProvider(this).get(NotesViewModel.class);
 
             notesViewModel.getObservedNotes().observe(this, notes -> {
-                if (notes != null){
-                    notesAdapter = new NotesAdapter(this, notes);
+                if (notes != null) {
+                    notesAdapter = new NotesAdapter(this, notes, this);
                     binding.notesGrid.setAdapter(notesAdapter);
                 }
             });
-
-
         }
 
         binding.addNoteButton.setOnClickListener(v -> {
@@ -70,5 +69,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Note[] notatki = (Note[]) data.getSerializableExtra("new_notes");
+            List<Note> notes = new ArrayList<>();
+            if (notatki != null) {
+                Collections.addAll(notes, notatki);
+
+                MutableLiveData<List<Note>> mutableLiveData = new MutableLiveData<>();
+                mutableLiveData.setValue(notes);
+                notesViewModel.setMutableLiveList(mutableLiveData);
+
+                notesAdapter.updateNotes(notes);
+
+
+            }
+        }
     }
 }

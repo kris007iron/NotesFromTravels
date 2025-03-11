@@ -27,7 +27,7 @@ public interface NotesInterface {
     Call<Note> postNote(@Header("Authorization") String token, @Body Note note);
 
     @PUT("notes/{id}")
-    Call<MessageResponse> putNoteById(@Path("id") String id, @Body Note note, @Header("Authorization") String token);
+    Call<MessageResponse> putNoteById(@Path("id") int id, @Body Note note, @Header("Authorization") String token);
 
     @DELETE("notes/{id}")
     Call<MessageResponse> deleteNote(@Header("Authorization") String token , @Path("id") int id);

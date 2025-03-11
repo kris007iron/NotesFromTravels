@@ -1,9 +1,8 @@
 package com.example.travel_notes_mobile.adapters;
 
-import android.app.Application;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -21,17 +19,19 @@ import com.example.travel_notes_mobile.R;
 import com.example.travel_notes_mobile.model.Note;
 import com.example.travel_notes_mobile.view.SingleNoteActivity;
 import com.example.travel_notes_mobile.viewmodel.NotesViewModel;
-import com.example.travel_notes_mobile.viewmodel.NotesViewModelFactory;
 
 import java.util.List;
 
 public class NotesAdapter extends BaseAdapter {
     private Context context;
     private List<Note> notes;
+    private Activity activity;
 
-    public NotesAdapter(Context context, List<Note> notes) {
+    public NotesAdapter(Context context, List<Note> notes, Activity activity) {
         this.context = context;
         this.notes = notes;
+        this.activity = activity;
+
     }
 
     public void updateNotes(List<Note> notes) {
@@ -70,12 +70,10 @@ public class NotesAdapter extends BaseAdapter {
         location.setText(location_string);
         ImageView delete = convertView.findViewById(R.id.delete_icon);
         delete.setOnClickListener(v->{
-            notes.remove(note);
-            notifyDataSetChanged();
-
-            NotesViewModelFactory factory = NotesViewModelFactory.getInstance((Application) context.getApplicationContext());
-            NotesViewModel notesViewModel = new ViewModelProvider((ViewModelStoreOwner) context, factory).get(NotesViewModel.class);
+//            notes.remove(note);
+            NotesViewModel notesViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(NotesViewModel.class);
             notesViewModel.deleteNote(note);
+            notifyDataSetChanged();
 
             Toast.makeText(context, "Note deleted", Toast.LENGTH_SHORT).show();
 
@@ -86,7 +84,7 @@ public class NotesAdapter extends BaseAdapter {
             Intent intent = new Intent(context, SingleNoteActivity.class);
             intent.putExtra("note", note);
             Log.d("ELOOO", "Starting SingleNoteActivity");
-            context.startActivity(intent);
+            activity.startActivityForResult(intent, 1);
         });
 
         return convertView;
