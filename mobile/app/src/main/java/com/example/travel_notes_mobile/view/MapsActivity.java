@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.travel_notes_mobile.BuildConfig;
 import com.example.travel_notes_mobile.R;
 import com.example.travel_notes_mobile.databinding.ActivityMapsBinding;
 import com.example.travel_notes_mobile.fragments.MapsBottomFragment;
@@ -73,7 +74,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         geocoder = new Geocoder(this);
-        Places.initialize(getApplicationContext(), getString(R.string.API_KEY));
+        Log.d("ELOOO", BuildConfig.MAPS_API_KEY);
+        Places.initialize(getApplicationContext(), BuildConfig.MAPS_API_KEY);
         PlacesClient placesClient = Places.createClient(this);
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
@@ -153,8 +155,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 visited_locations = new Location[0];
             }
             else{
-                Handler handler = new Handler(Looper.getMainLooper());
-                int delay = 4000;
                 for (Location location : visited_locations) {
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     map.addMarker(new MarkerOptions().position(latLng).title(""));
