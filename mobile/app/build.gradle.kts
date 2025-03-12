@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -7,7 +9,15 @@ android {
     compileSdk = 35
 
     defaultConfig {
+        val secretPropertiesFile = rootProject.file("secret.properties")
+        val secretProperties = Properties()
+        if (secretPropertiesFile.exists()) {
+            secretProperties.load(secretPropertiesFile.inputStream())
+        }
+        buildConfigField("String", "MAPS_API_KEY", "\"${secretProperties.getProperty("MAPS_API_KEY")}\"")
+        manifestPlaceholders["MAPS_API_KEY"] = secretProperties.getProperty("MAPS_API_KEY")
         applicationId = "com.example.travel_notes_mobile"
+        android.buildFeatures.buildConfig = true
         minSdk = 24
         targetSdk = 34
         versionCode = 1
