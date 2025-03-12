@@ -18,22 +18,7 @@ export function LoginForm({
         <Button
           variant="outline"
           className="w-full"
-          onClick={() => {
-            fetch("http://localhost:8080/api/v1/admin/users", {
-              method: "GET", // or "POST", "PUT", etc.
-              headers: {
-                "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbiI6ImtyaXMwMDdpcm9uIiwiaWF0IjoxNzQxNzMyMzg0LCJleHAiOjE3NDE4MTg3ODR9.fJ09Vty05Fddg1tTJzfAj7f1Ua0e343h4ZUKHwk15v-OrZreQdhJ4e2qCcs3MWsxeop7bwFRadu3kCy5udvTbw",
-              }
-            })
-              .then(response => {
-                if (!response.ok) {
-                  throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-              })
-              .then(data => console.log("Success:", data))
-              .catch(error => console.error("Error:", error));
-          }}
+          onClick={(e) => { e.preventDefault(); window.location.href = "http://localhost:8080/oauth2/authorization/github" }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path
@@ -44,6 +29,6 @@ export function LoginForm({
           Login with GitHub
         </Button>
       </div>
-    </form>
+    </form >
   )
 }
