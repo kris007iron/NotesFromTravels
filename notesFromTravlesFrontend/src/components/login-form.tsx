@@ -34,7 +34,7 @@ export function LoginForm({
       </div>
     </form>
       <div className="container mx-auto py-10">
-        <UserTable />
+        {/* <UserTable /> */}
       </div></>
   )
 }
