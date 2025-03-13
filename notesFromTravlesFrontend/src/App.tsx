@@ -1,24 +1,30 @@
-import { LoginForm } from "./components/login-form"
-import { UserTable } from "./components/users/columns"
+import React from "react";
+import { LoginForm } from "./components/login-form";
+import { UserTable } from "./components/users/columns";
+import { TokenProvider, useToken } from "./TokenContext"; // Import the TokenProvider
 
-function App() {
-  const queryParameters: URLSearchParams = new URLSearchParams(window.location.search)
-  const token: string | null = queryParameters.get("token")
-  {if(token) {
-    //token verification on backend and getting some data
-    
+const AppContent: React.FC = () => {
+  const { token } = useToken(); // Access the token from the context
+
+  if (token) {
+    // Token exists, show the UserTable
+    return <UserTable />;
+  } else {
+    // Token doesn't exist, show the LoginForm
     return (
-      <UserTable></UserTable>
-    )
-  }else
-  {
-    return (  
       <div className="flex flex-col items-center justify-center min-h-svh">
-      <LoginForm></LoginForm>      
+        <LoginForm />
       </div>
-    )
-  }}
-  
-}
+    );
+  }
+};
 
-export default App
+const App: React.FC = () => {
+  return (
+    <TokenProvider>
+      <AppContent />
+    </TokenProvider>
+  );
+};
+
+export default App;
