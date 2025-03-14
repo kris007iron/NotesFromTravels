@@ -5,8 +5,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
@@ -42,7 +40,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, OnMapTypeChangeListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, OnMapTypeChangeListener, GoogleMap.OnMapClickListener {
     private ActivityMapsBinding binding;
     private GoogleMap map;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -144,6 +142,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
         setupMap();
+
+
         boolean allLocations = getIntent().getBooleanExtra("all_locations", false);
         if (allLocations){
             binding.sendCords.setVisibility(View.INVISIBLE);
@@ -160,6 +160,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     map.addMarker(new MarkerOptions().position(latLng).title(""));
                 }
             }
+        }
+        else{
+            map.setOnMapClickListener(this);
+        }
+    }
+
+    @Override
+    public void onMapClick(@NonNull LatLng latLng){
+        map.clear();
+        map.addMarker(new MarkerOptions().position(latLng).title("My pin"));
+        latitude = latLng.latitude;
+        longitude = latLng.longitude;
+        locationName = "My pin";
+
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            locationName = addresses.get(0).getLocality();
+        } catch (IOException e) {
+            Log.e("ELOOO", "Geocode error", e);
         }
     }
 

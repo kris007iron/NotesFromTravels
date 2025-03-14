@@ -32,7 +32,7 @@ public class AuthActivity extends AppCompatActivity {
 
 
         binding.btnLogin.setOnClickListener(v -> {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.0.171:8080/login"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.0.171:8080/oauth2/authorization/github"));
             startActivity(browserIntent);
         });
 //        binding.btnRegister.setOnClickListener(v -> {
