@@ -70,11 +70,9 @@ public class NotesViewModel extends AndroidViewModel {
         SharedPreferences sharedPreferences = application.getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
         String tokenValue = sharedPreferences.getString("token", "");
         Call<Note> notes = RetrofitService.getNotesInterface().postNote("Bearer " + tokenValue, note);
-        Log.d("ELOOO", "POSTUJE");
         notes.enqueue(new retrofit2.Callback<Note>() {
             @Override
             public void onResponse(Call<Note> call, retrofit2.Response<Note> response) {
-                Log.d("KUUPA", response.body().getTitle());
                 List<Note> currentNotes = mutableLiveList.getValue();
 
                 if (currentNotes != null) {
@@ -85,12 +83,11 @@ public class NotesViewModel extends AndroidViewModel {
 
                 }
                 result.setValue(response.body());
-                Log.d("KUUPA", response.body().getTitle());
             }
 
             @Override
             public void onFailure(Call<Note> call, Throwable t) {
-                Log.d("KUUPA", t.getMessage());
+                Log.d("NotesViewModelDebug", t.getMessage());
             }
         });
         return result;
@@ -114,14 +111,13 @@ public class NotesViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<MessageResponse> call, Throwable t) {
-                Log.d("KUUPA", t.getMessage());
+                Log.d("NotesViewModelDebug", t.getMessage());
             }
         });
 
     }
 
     public void updateNote(Note note) {
-        Log.d("____UPDATE", "UPDATE");
         SharedPreferences sharedPreferences = application.getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
         String tokenValue = sharedPreferences.getString("token", "");
         Call<MessageResponse> notes = RetrofitService.getNotesInterface().putNoteById(note.getId(), note, "Bearer " + tokenValue);
