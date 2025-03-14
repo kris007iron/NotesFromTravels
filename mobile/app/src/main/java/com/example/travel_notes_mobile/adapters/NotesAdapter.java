@@ -83,7 +83,7 @@ public class NotesAdapter extends BaseAdapter {
 
             Intent intent = new Intent(context, SingleNoteActivity.class);
             intent.putExtra("note", note);
-            Log.d("ELOOO", "Starting SingleNoteActivity");
+            Log.d("SingleNoteActivity", "Starting SingleNoteActivity");
             activity.startActivityForResult(intent, 1);
         });
 

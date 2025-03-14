@@ -54,25 +54,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("ELOOO", "onCreate called");
-//                setContentView(R.layout.activity_maps);
         try {
             binding = ActivityMapsBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
-            Log.d("ELOOO", "setContentView successful");
         } catch (Exception e) {
-            Log.e("ELOOO", "Error in setContentView", e);
+            Log.e("MapsActivityDebug", "Error in setContentView", e);
         }
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
         if (mapFragment != null) {
-            Log.d("ELOOO", "MapFragment found");
+            Log.d("MapsActivityDebug", "MapFragment found");
             mapFragment.getMapAsync(this);
         } else {
-            Log.e("ELOOO", "MapFragment is null");
+            Log.e("MapsActivityDebug", "MapFragment is null");
         }
 
         geocoder = new Geocoder(this);
-        Log.d("ELOOO", BuildConfig.MAPS_API_KEY);
+        Log.d("MapsActivityDebug", BuildConfig.MAPS_API_KEY);
         Places.initialize(getApplicationContext(), BuildConfig.MAPS_API_KEY);
         PlacesClient placesClient = Places.createClient(this);
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
@@ -92,13 +89,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 public void onPlaceSelected(@NonNull Place place) {
                     try{
                         LatLng latLng = place.getLatLng();
-                        Log.d("ELOOO", "Place: " + place.getName() + ", " + latLng);
+                        Log.d("MapsActivityDebug", "Place: " + place.getName() + ", " + latLng);
                         longitude = latLng.longitude;
                         latitude = latLng.latitude;
                         locationName = place.getName();
+                        map.clear();
+
                     }
                     catch (Exception e){
-                        Log.e("ELOOO", "Error in onPlaceSelected", e);
+                        Log.e("MapsActivityDebug", "Error in onPlaceSelected", e);
                     }
 
                     try {
@@ -106,12 +105,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                     } catch (IOException e) {
-                        Log.e("ELOOO", "Geocode error", e);
+                        Log.e("MapsActivityDebug", "Geocode error", e);
                     }
                 }
             });
         } else {
-            Log.e("ELOOO", "AutocompleteFragment is null");
+            Log.e("MapsActivityDebug", "AutocompleteFragment is null");
         }
 
 
@@ -122,7 +121,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (fab != null) {
             fab.setOnClickListener(v -> bottomFragment.show(getSupportFragmentManager(), "myBottom"));
         } else {
-            Log.e("ELOOO", "FloatingActionButton is null");
+            Log.e("MapsActivityDebug", "FloatingActionButton is null");
         }
 
         binding.sendCords.setOnClickListener(v->{
@@ -178,7 +177,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
             locationName = addresses.get(0).getLocality();
         } catch (IOException e) {
-            Log.e("ELOOO", "Geocode error", e);
+            Log.e("MapsActivityDebug", "Geocode error", e);
         }
     }
 
@@ -218,7 +217,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             map.moveCamera(cameraUpdate);
             map.animateCamera(cameraUpdate);
         } else {
-            Log.e("ELOOO", "Geocode returned no results");
+            Log.e("MapsActivityDebug", "Geocode returned no results");
         }
     }
 
@@ -227,7 +226,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (map != null) {
             map.setMapType(mapType);
         } else {
-            Log.e("ELOOO", "GoogleMap is null");
+            Log.e("MapsActivityDebug", "GoogleMap is null");
         }
     }
 }

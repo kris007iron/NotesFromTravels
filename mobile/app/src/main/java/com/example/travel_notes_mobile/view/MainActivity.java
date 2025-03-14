@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements BottomFragment.Bo
         Uri data = intent.getData();
         if (data != null && data.isHierarchical()) {
             String token = data.getQueryParameter("token");
-            Log.d("ELOOO", token);
             SharedPreferences sharedPreferences = getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("token", token);
