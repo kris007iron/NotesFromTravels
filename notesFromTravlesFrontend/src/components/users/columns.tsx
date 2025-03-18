@@ -5,7 +5,19 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { User, roles } from "@/User";
 import { DataTable } from "./data-table";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 export const UserTable: React.FC = () => {
   const { token } = useToken();
@@ -46,13 +58,14 @@ export const UserTable: React.FC = () => {
   }, [token]); // ✅ Runs only when the token changes
 
   // ✅ Function to update user role
-  const updateRole = async (userId: number, newRole: typeof roles[number]) => {
+  const updateRole = async (userId: number, newRole: typeof roles[number], login: string) => {
     const previousUsers = [...users];
     setUsers((prevUsers) =>
       prevUsers.map((user) =>
         user.id === userId ? { ...user, role: newRole } : user
       )
     );
+    //users.find()
 
     try {
       const response = await fetch("http://localhost:8080/api/v1/admin/users", {
@@ -61,7 +74,7 @@ export const UserTable: React.FC = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ userId, role: newRole }),
+        body: JSON.stringify({ userId, login: login, role: newRole }),
       });
 
       if (!response.ok) {
@@ -74,6 +87,16 @@ export const UserTable: React.FC = () => {
       setUsers(previousUsers); // Revert UI if request fails
     }
   };
+
+  const deleteUser = async (userId: number) => {
+
+    const response = await fetch("http://localhost:8080/api/v1/admin/users/" + userId, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+  }
 
   // ✅ Define table columns
   const columns: ColumnDef<User>[] = [
@@ -95,7 +118,7 @@ export const UserTable: React.FC = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {roles.map((role) => (
-                <DropdownMenuItem key={role} onClick={() => updateRole(user.id, role)}>
+                <DropdownMenuItem key={role} onClick={() => updateRole(user.id, role, user.login)}>
                   {role}
                 </DropdownMenuItem>
               ))}
@@ -104,6 +127,33 @@ export const UserTable: React.FC = () => {
         );
       },
     },
+    {
+      id: "delete",
+      header: "Delete",
+      cell: ({ row }) => {
+        const user = row.original;
+        return (
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <Trash2 className="h-4 w-4" />
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete your account
+                  and remove your data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => deleteUser(user.id)}>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )
+      }
+    }
   ];
 
   return <DataTable columns={columns} data={users} />;
