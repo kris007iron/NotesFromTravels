@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useToken } from "../../TokenContext";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { User, roles } from "@/User";
 import { DataTable } from "./data-table";
 import { MoreHorizontal, Trash2 } from "lucide-react";
@@ -146,24 +147,26 @@ export const UserTable: React.FC = () => {
       id: "role",
       cell: ({ row }) => {
         const user = row.original;
+      
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="default" className="h-8 w-24 p-0">
-                <span>{user.role}</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {roles.map((role) => (
-                <DropdownMenuItem key={role} onClick={() => updateRole(user.id, role, user.login)}>
-                  {role}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex items-center space-x-2">
+            <Select
+              onValueChange={(value: "USER" | "ADMIN") => updateRole(user.id, value, user.login)}
+            >
+              <SelectTrigger className="h-full w-25">
+                <SelectValue placeholder={user.role} />
+              </SelectTrigger>
+              <SelectContent className="h-full">
+                {roles.map((role) => (
+                  <SelectItem key={role} value={role}>
+                    {role}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         );
-      },
+      }
     },
     {
       id: "delete",
