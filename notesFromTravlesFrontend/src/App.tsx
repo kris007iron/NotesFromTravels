@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Moon, Sun } from "lucide-react";
 import { ThemeProvider } from "./components/theme-provider";
+import { ModeToggle } from "./components/mode-toggle";
 
 const AppContent: React.FC = () => {
   const { token } = useToken();
@@ -21,7 +22,7 @@ const AppContent: React.FC = () => {
           <CardTitle>Login</CardTitle>
         </CardHeader>
         <CardContent>
-          <LoginForm /> {/* Your unchanged LoginForm */}
+          <LoginForm />
         </CardContent>
       </Card>
     </div>
@@ -31,7 +32,17 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <TokenProvider>
-      <ThemeProvider>
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <div className="grid grid-cols-2 gap-4 m-4 items-center">
+          <div className="flex justify-start pl-10">
+            <h1 className="text-3xl font-semibold text-gray-800 dark:text-white">
+              Notes From Travel Admin Panel
+            </h1>
+          </div>
+          <div className="flex justify-end">
+            <ModeToggle />
+          </div>
+        </div>
         <div className="relative m-4">
           <AppContent />
         </div>
