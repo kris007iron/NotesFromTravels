@@ -2,27 +2,40 @@ import React from "react";
 import { LoginForm } from "./components/login-form";
 import { UserTable } from "./components/users/columns";
 import { TokenProvider, useToken } from "./TokenContext"; // Import the TokenProvider
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Moon, Sun } from "lucide-react";
+import { ThemeProvider } from "./components/theme-provider";
 
 const AppContent: React.FC = () => {
-  const { token } = useToken(); // Access the token from the context
+  const { token } = useToken();
 
-  if (token) {
-    // Token exists, show the UserTable
-    return <UserTable />;
-  } else {
-    // Token doesn't exist, show the LoginForm
-    return (
-      <div className="flex flex-col items-center justify-center min-h-svh">
-        <LoginForm />
-      </div>
-    );
-  }
+  return token ? (
+    <div className="flex flex-col items-center min-h-screen p-6">
+      <UserTable />
+    </div>
+  ) : (
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <Card className="w-[350px] shadow-lg">
+        <CardHeader>
+          <CardTitle>Login</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <LoginForm /> {/* Your unchanged LoginForm */}
+        </CardContent>
+      </Card>
+    </div>
+  );
 };
 
 const App: React.FC = () => {
   return (
     <TokenProvider>
-      <AppContent />
+      <ThemeProvider>
+        <div className="relative m-4">
+          <AppContent />
+        </div>
+      </ThemeProvider>
     </TokenProvider>
   );
 };
