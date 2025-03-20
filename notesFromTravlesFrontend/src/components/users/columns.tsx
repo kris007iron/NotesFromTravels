@@ -89,14 +89,52 @@ export const UserTable: React.FC = () => {
   };
 
   const deleteUser = async (userId: number) => {
+    if (!token) {
+      console.error("❌ Error: Missing authentication token.");
+      return;
+    }
 
-    const response = await fetch("http://localhost:8080/api/v1/admin/users/" + userId, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
+    try {
+      const response = await fetch(`http://localhost:8080/api/v1/admin/users/${userId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete user: ${response.status} ${response.statusText}`);
       }
-    })
-  }
+
+      console.log(`✅ User with ID ${userId} deleted successfully`);
+
+      // Fetch updated user list after successful deletion
+      const updatedResponse = await fetch("http://localhost:8080/api/v1/admin/users", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!updatedResponse.ok) {
+        throw new Error("Failed to fetch updated user list");
+      }
+
+      const updatedUsers = await updatedResponse.json();
+
+      // Ensure state update happens in a React component
+      if (typeof setUsers === "function") {
+        setUsers(updatedUsers); // Update user list
+      } else {
+        console.error("❌ Error: setUsers is not a valid function.");
+      }
+
+    } catch (error) {
+      console.error("❌ Error deleting user:", error);
+    }
+  };
+
 
   // ✅ Define table columns
   const columns: ColumnDef<User>[] = [
