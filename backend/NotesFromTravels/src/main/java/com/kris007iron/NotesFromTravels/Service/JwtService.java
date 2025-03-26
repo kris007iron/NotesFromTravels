@@ -58,7 +58,7 @@ public class JwtService {
 
             return claims.get("login", String.class);
         } catch (ExpiredJwtException e) {
-            // Token expired
+            System.out.println("tokenExpired");
             return "";
         }
     }
