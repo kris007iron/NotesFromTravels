@@ -25,13 +25,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
-        String role = JwtService.extractRoleFromAuth(request, userService);
-        if(request.getRequestURL().toString().startsWith("http://localhost:8080/api/v1/admin") && role.equals("USER")) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You are not authorized for this panel");
-            return;
-        }
+
         // Skip filtering if authentication is already set
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            String role = JwtService.extractRoleFromAuth(request, userService);
+            if(request.getRequestURL().toString().startsWith("http://localhost:8080/api/v1/admin") && role.equals("USER")) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You are not authorized for this panel");
+                return;
+            }
             filterChain.doFilter(request, response);
             return;
         }
@@ -40,17 +41,26 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
             String login = JwtService.getLoginFromToken(token);
 
-            if (login != null) {
+            if (login != null && !login.isEmpty()) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(login);
                 if (JwtService.validateToken(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                    String role = JwtService.extractRoleFromAuth(request, userService);
+                    if(request.getRequestURL().toString().startsWith("http://localhost:8080/api/v1/admin") && role.equals("USER")) {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You are not authorized for this panel");
+                        return;
+                    }
+                    response.addHeader("Authorization", JwtService.generateToken(userDetails.getUsername(), 30000));
                 } else {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT Token");
                     return;
                 }
+            } else{
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT Token");
+                return;
             }
         }
 
