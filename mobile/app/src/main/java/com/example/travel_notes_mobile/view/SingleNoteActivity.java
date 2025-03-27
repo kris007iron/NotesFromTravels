@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -87,18 +88,19 @@ public class SingleNoteActivity extends AppCompatActivity {
                     Note newNote = new Note(note.getId(), note.getTitle(), newContent, loc, note.getImageUrl(), null, null);
                     notesViewModel = new ViewModelProvider(this).get(NotesViewModel.class);
 
-                    notesViewModel.updateNote(newNote);
-
-                    notesViewModel.getObservedNotes().observe(this, notes -> {
-                        Note[] all_notes = notesViewModel.getAllNotes();
-                        if (all_notes != null) {
-                            for (Note note1 : all_notes) {
-                                if (note1.getId() == note.getId()) {
-                                    notesViewModel.updateNoteInDatabase(newNote);
-                                    Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
-                                    isBeingUpdated = true;
-                                    finish();
-                                    break;
+                    MutableLiveData<Boolean> putResult = notesViewModel.updateNote(newNote);
+                    putResult.observe(this, success -> {
+                        if (success) {
+                            Note[] all_notes = notesViewModel.getAllNotes();
+                            if (all_notes != null) {
+                                for (Note note1 : all_notes) {
+                                    if (note1.getId() == note.getId()) {
+                                        notesViewModel.updateNoteInDatabase(newNote);
+                                        Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
+                                        isBeingUpdated = true;
+                                        finish();
+                                        break;
+                                    }
                                 }
                             }
                         }
