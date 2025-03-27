@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -70,13 +72,16 @@ public class NotesAdapter extends BaseAdapter {
         location.setText(location_string);
         ImageView delete = convertView.findViewById(R.id.delete_icon);
         delete.setOnClickListener(v->{
-            notes.remove(note);
-            notifyDataSetChanged();
+
             NotesViewModel notesViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(NotesViewModel.class);
-            notesViewModel.deleteNote(note);
-
-            Toast.makeText(context, "Note deleted", Toast.LENGTH_SHORT).show();
-
+            MutableLiveData<Boolean> deleteResult = notesViewModel.deleteNote(note);
+            deleteResult.observe((LifecycleOwner) context, success -> {
+                if (success) {
+                    notes.remove(note);
+                    notifyDataSetChanged();
+                    Toast.makeText(context, "Note deleted", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         convertView.setOnClickListener(v->{
