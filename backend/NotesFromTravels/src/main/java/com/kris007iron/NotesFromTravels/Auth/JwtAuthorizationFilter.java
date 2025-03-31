@@ -1,6 +1,7 @@
 package com.kris007iron.NotesFromTravels.Auth;
 
 import com.kris007iron.NotesFromTravels.Service.JwtService;
+import com.kris007iron.NotesFromTravels.Service.TokenService;
 import com.kris007iron.NotesFromTravels.Service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,6 +23,7 @@ import java.io.IOException;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final UserService userService;
+    private final TokenService tokenService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
@@ -43,7 +45,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             if (login != null && !login.isEmpty()) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(login);
-                if (JwtService.validateToken(token, userDetails)) {
+                if (JwtService.validateToken(token, userDetails) && !tokenService.isTokenExpired(token)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
