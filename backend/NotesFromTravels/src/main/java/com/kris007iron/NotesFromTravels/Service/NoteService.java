@@ -20,8 +20,8 @@ import java.util.Optional;
 
 @Service
 public class NoteService {
-    public final NoteRepository noteRepository;
-    public final UserService userService;
+    private final NoteRepository noteRepository;
+    private final UserService userService;
     private final LocationRepository locationRepository;
     private final UserRepository userRepository;
 
