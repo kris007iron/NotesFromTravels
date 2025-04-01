@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
@@ -65,6 +66,16 @@ public class MainActivity extends AppCompatActivity implements BottomFragment.Bo
             Intent intent1 = new Intent(this, MapsActivity.class);
             intent1.putExtra("all_locations", true);
             startActivity(intent1);
+        });
+        binding.logout.setOnClickListener(v->{
+            SharedPreferences sharedPreferences = getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove("token");
+            editor.apply();
+
+            Intent log_out = new Intent(this, AuthActivity.class);
+            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+            startActivity(log_out);
         });
 
 

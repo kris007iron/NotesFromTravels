@@ -22,18 +22,19 @@
             android:titleTextColor="@color/white">
 
             <ImageButton
+                android:id="@+id/logout"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="end"
                 android:layout_marginHorizontal="20dp"
-                android:background="@drawable/account_circle_24px"
+                android:background="@drawable/logout_24px"
                 android:contentDescription="@string/usericon" />
+
             <ImageButton
                 android:id="@+id/mapButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/map_24px"
-                />
+                android:background="@drawable/map_24px" />
 
         </androidx.appcompat.widget.Toolbar>
 
