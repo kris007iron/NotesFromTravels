@@ -221,5 +221,30 @@ public class NotesViewModel extends AndroidViewModel {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         application.startActivity(intent);
     }
+    public void logout_user(){
+        SharedPreferences sharedPreferences = application.getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("token");
+        editor.apply();
+
+        Call<MessageResponse> logout = RetrofitService.getNotesInterface().logout("Bearer " + sharedPreferences.getString("token", ""));
+        logout.enqueue(new retrofit2.Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                if (response.code() == 401) {
+                    logout();
+                }
+                notesDatabase.notesDAO().deleteAllNotes();
+                mutableLiveList.setValue(new ArrayList<>());
+
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+                Log.d("NotesViewModelDebug", t.getMessage());
+            }
+        });
+
+    }
 
 }

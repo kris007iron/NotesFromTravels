@@ -68,10 +68,7 @@ public class MainActivity extends AppCompatActivity implements BottomFragment.Bo
             startActivity(intent1);
         });
         binding.logout.setOnClickListener(v->{
-            SharedPreferences sharedPreferences = getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove("token");
-            editor.apply();
+            notesViewModel.logout_user();
 
             Intent log_out = new Intent(this, AuthActivity.class);
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
