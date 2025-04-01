@@ -35,4 +35,7 @@ public interface NotesInterface {
     @POST("/oauth/token")
     Call<AuthResponse> postAuthData(@Header("Authorization") String token);
 
+    @GET("logout")
+    Call<MessageResponse> logout(@Header("Authorization") String token);
+
 }
