@@ -1,18 +1,11 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { useToken } from "@/TokenContext"; // Import the useToken hook
 
 export const LoginForm: React.FC = () => {
-  const { setToken } = useToken(); // Access the setter function
 
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     window.location.href = "http://localhost:8080/oauth2/authorization/github";
-  };
-
-  // Handle token update after successful OAuth
-  const handleTokenUpdate = (newToken: string) => {
-    setToken(newToken); // Update the token in the context
   };
 
   return (

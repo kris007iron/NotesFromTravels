@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useToken } from "../../TokenContext";
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { User, roles } from "@/User";
 import { DataTable } from "./data-table";
-import { MoreHorizontal, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -81,7 +79,6 @@ export const UserTable: React.FC = () => {
       if (!response.ok) {
         throw new Error("Failed to update role");
       }
-
       console.log(`✅ Role updated to ${newRole} for user ${userId}`);
     } catch (error) {
       console.error("❌ Error updating role:", error);
@@ -147,7 +144,7 @@ export const UserTable: React.FC = () => {
       id: "role",
       cell: ({ row }) => {
         const user = row.original;
-      
+
         return (
           <div className="flex items-center space-x-2">
             <Select
@@ -156,9 +153,9 @@ export const UserTable: React.FC = () => {
               <SelectTrigger className="h-full w-25">
                 <SelectValue placeholder={user.role} />
               </SelectTrigger>
-              <SelectContent className="h-full">
+              <SelectContent className="h-full w-25 p-0">
                 {roles.map((role) => (
-                  <SelectItem key={role} value={role}>
+                  <SelectItem key={role} value={role} className="w-25">
                     {role}
                   </SelectItem>
                 ))}
