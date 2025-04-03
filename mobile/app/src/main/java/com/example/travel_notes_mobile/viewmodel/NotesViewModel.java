@@ -10,19 +10,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.travel_notes_mobile.database.NotesDatabase;
-import com.example.travel_notes_mobile.model.Location;
 import com.example.travel_notes_mobile.model.MessageResponse;
 import com.example.travel_notes_mobile.model.Note;
 import com.example.travel_notes_mobile.service.RetrofitService;
 import com.example.travel_notes_mobile.view.AuthActivity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -223,25 +219,26 @@ public class NotesViewModel extends AndroidViewModel {
     }
     public void logout_user(){
         SharedPreferences sharedPreferences = application.getSharedPreferences("travel_notes_mobile", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("token");
-        editor.apply();
-
         Call<MessageResponse> logout = RetrofitService.getNotesInterface().logout("Bearer " + sharedPreferences.getString("token", ""));
         logout.enqueue(new retrofit2.Callback<MessageResponse>() {
             @Override
             public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                Log.d("LOGOUTTTTT", "LOGOUTTTTT");
                 if (response.code() == 401) {
                     logout();
                 }
                 notesDatabase.notesDAO().deleteAllNotes();
                 mutableLiveList.setValue(new ArrayList<>());
 
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("token");
+                editor.apply();
+
             }
 
             @Override
             public void onFailure(Call<MessageResponse> call, Throwable t) {
-                Log.d("NotesViewModelDebug", t.getMessage());
+                Log.d("LOGOUTTTTT", t.getLocalizedMessage() + "___" + t.getMessage());
             }
         });
 
