@@ -56,8 +56,8 @@ public class SingleNoteActivity extends AppCompatActivity {
 
             Glide.with(this)
                     .load(note.getImageUrl())
-                    .placeholder(R.drawable.def)
-                    .error(R.drawable.teren)
+                    .placeholder(R.drawable.no_image_image)
+                    .error(R.drawable.no_image_image)
                     .into(binding.imageView);
 
             binding.editNoteButton.setOnClickListener(v -> {
