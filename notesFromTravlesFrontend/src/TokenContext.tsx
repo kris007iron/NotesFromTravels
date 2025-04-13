@@ -15,18 +15,18 @@ interface TokenProviderProps {
 }
 
 export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem("token"); // Retrieve token from localStorage if available
-  });
+  const [token, setToken] = useState<string | null>(null);
+
+
 
   useEffect(() => {
     const queryParameters = new URLSearchParams(window.location.search);
     const tokenFromUrl = queryParameters.get("token");
 
     if (tokenFromUrl) {
-      localStorage.setItem("token", tokenFromUrl); // Store in localStorage
+
       setToken(tokenFromUrl);
-      window.history.replaceState({}, document.title, window.location.pathname); // Remove token from URL
+
     }
   }, []);
 
