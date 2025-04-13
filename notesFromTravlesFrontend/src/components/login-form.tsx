@@ -5,7 +5,8 @@ export const LoginForm: React.FC = () => {
 
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    window.location.href = "http://localhost:8080/oauth2/authorization/github";
+    // this too
+    window.location.href = "http://192.168.8.100:8080/oauth2/authorization/github";
   };
 
   return (
