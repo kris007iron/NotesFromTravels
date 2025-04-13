@@ -15,7 +15,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException {
 
-        System.out.println("github auth failed");
+        System.out.println(exception);
 
         response.sendRedirect("/error");
     }
